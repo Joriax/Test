@@ -12,7 +12,6 @@
  */
 package de.joriax.spigotAdminSystem.Commands;
 
-import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.ChatColor;
@@ -22,13 +21,14 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class FixCommand
 implements CommandExecutor {
-    private final SpigotAdminSystem plugin;
+    private final JavaPlugin plugin;
     private final Map<Player, Long> cooldowns = new HashMap<Player, Long>();
 
-    public FixCommand(SpigotAdminSystem plugin) {
+    public FixCommand(JavaPlugin plugin) {
         this.plugin = plugin;
     }
 

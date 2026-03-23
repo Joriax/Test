@@ -12,21 +12,21 @@
 package de.joriax.spigotAdminSystem.CommandSpy;
 
 import de.joriax.spigotAdminSystem.CommandSpy.CommandSpy;
-import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class CommandListener
 implements Listener {
-    private final SpigotAdminSystem plugin;
+    private final JavaPlugin plugin;
     private final CommandSpy commandSpyCommand;
     private final String prefix = ChatColor.translateAlternateColorCodes((char)'&', (String)"&8[&6CommandSpy&8] &r");
 
-    public CommandListener(SpigotAdminSystem plugin) {
+    public CommandListener(JavaPlugin plugin) {
         this.plugin = plugin;
         this.commandSpyCommand = new CommandSpy(plugin);
     }

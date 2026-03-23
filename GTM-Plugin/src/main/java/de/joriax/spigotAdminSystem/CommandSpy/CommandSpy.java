@@ -22,7 +22,6 @@
  */
 package de.joriax.spigotAdminSystem.CommandSpy;
 
-import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -61,7 +60,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 public class CommandSpy
 implements CommandExecutor,
 Listener {
-    private final SpigotAdminSystem plugin;
+    private final org.bukkit.plugin.java.JavaPlugin plugin;
     private File configFile;
     private YamlConfiguration config;
     private boolean loggingEnabled = true;
@@ -74,7 +73,7 @@ Listener {
     private final Map<UUID, Boolean> spyingPlayers = new HashMap<UUID, Boolean>();
     private final String prefix = ChatColor.translateAlternateColorCodes((char)'&', (String)"&8[&6CommandSpy&8] &r");
 
-    public CommandSpy(SpigotAdminSystem plugin) {
+    public CommandSpy(org.bukkit.plugin.java.JavaPlugin plugin) {
         this.plugin = plugin;
         this.setupConfig();
         this.setupLogging();

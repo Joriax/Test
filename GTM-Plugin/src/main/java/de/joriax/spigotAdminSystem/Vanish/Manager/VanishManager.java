@@ -9,8 +9,8 @@
  */
 package de.joriax.spigotAdminSystem.Vanish.Manager;
 
-import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import de.joriax.spigotAdminSystem.Vanish.Command.VanishCommand;
+import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashSet;
 import java.util.Set;
 import org.bukkit.Bukkit;
@@ -19,11 +19,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 public class VanishManager {
-    private final SpigotAdminSystem plugin;
+    private final JavaPlugin plugin;
     private final VanishCommand vanishCommand;
     private final Set<Player> vanishedPlayers = new HashSet<Player>();
 
-    public VanishManager(SpigotAdminSystem plugin, VanishCommand vanishCommand) {
+    public VanishManager(JavaPlugin plugin, VanishCommand vanishCommand) {
         this.plugin = plugin;
         this.vanishCommand = vanishCommand;
     }

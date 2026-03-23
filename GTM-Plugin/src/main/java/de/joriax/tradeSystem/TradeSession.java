@@ -14,8 +14,7 @@
  */
 package de.joriax.tradeSystem;
 
-import de.joriax.economy.EconomyAPI;
-import de.joriax.tradeSystem.TradePlugin;
+import de.joriax.gtm.economy.EconomyAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -36,12 +35,14 @@ public class TradeSession {
     private double player2Money = 0.0;
     private boolean player1Ready = false;
     private boolean player2Ready = false;
-    private final TradePlugin plugin;
+    private final TradeManager tradeManager;
+    private final EconomyAPI economyAPI;
 
-    public TradeSession(Player player1, Player player2, TradePlugin plugin) {
+    public TradeSession(Player player1, Player player2, TradeManager tradeManager, EconomyAPI economyAPI) {
         this.player1 = player1;
         this.player2 = player2;
-        this.plugin = plugin;
+        this.tradeManager = tradeManager;
+        this.economyAPI = economyAPI;
         this.player1Inventory = Bukkit.createInventory((InventoryHolder)player1, (int)36, (String)("Handel mit " + player2.getName()));
         this.player2Inventory = Bukkit.createInventory((InventoryHolder)player2, (int)36, (String)("Handel mit " + player1.getName()));
         this.addConfirmationButtons(this.player1Inventory);
@@ -91,7 +92,6 @@ public class TradeSession {
     }
 
     private void completeTrade() {
-        EconomyAPI economyAPI = this.plugin.getEconomyAPI();
         for (ItemStack item : this.player1Inventory.getContents()) {
             if (item == null || item.getType() == Material.GREEN_WOOL || item.getType() == Material.RED_WOOL) continue;
             this.player2.getInventory().addItem(new ItemStack[]{item});
@@ -100,18 +100,17 @@ public class TradeSession {
             if (item == null || item.getType() == Material.GREEN_WOOL || item.getType() == Material.RED_WOOL) continue;
             this.player1.getInventory().addItem(new ItemStack[]{item});
         }
-        economyAPI.addBalance(this.player1, this.player2Money);
-        economyAPI.addBalance(this.player2, this.player1Money);
+        this.economyAPI.addBalance(this.player1, this.player2Money);
+        this.economyAPI.addBalance(this.player2, this.player1Money);
         this.player1.sendMessage(String.valueOf(ChatColor.GREEN) + "Handel erfolgreich abgeschlossen!");
         this.player2.sendMessage(String.valueOf(ChatColor.GREEN) + "Handel erfolgreich abgeschlossen!");
         this.player1.closeInventory();
         this.player2.closeInventory();
-        this.plugin.getTradeManager().removeTradeSession(this.player1);
-        this.plugin.getTradeManager().removeTradeSession(this.player2);
+        this.tradeManager.removeTradeSession(this.player1);
+        this.tradeManager.removeTradeSession(this.player2);
     }
 
     public void cancelTrade() {
-        EconomyAPI economyAPI = this.plugin.getEconomyAPI();
         for (ItemStack item : this.player1Inventory.getContents()) {
             if (item == null || item.getType() == Material.GREEN_WOOL || item.getType() == Material.RED_WOOL) continue;
             this.player1.getInventory().addItem(new ItemStack[]{item});
@@ -120,14 +119,14 @@ public class TradeSession {
             if (item == null || item.getType() == Material.GREEN_WOOL || item.getType() == Material.RED_WOOL) continue;
             this.player2.getInventory().addItem(new ItemStack[]{item});
         }
-        economyAPI.addBalance(this.player1, this.player1Money);
-        economyAPI.addBalance(this.player2, this.player2Money);
+        this.economyAPI.addBalance(this.player1, this.player1Money);
+        this.economyAPI.addBalance(this.player2, this.player2Money);
         this.player1.sendMessage(String.valueOf(ChatColor.RED) + "Handel abgebrochen!");
         this.player2.sendMessage(String.valueOf(ChatColor.RED) + "Handel abgebrochen!");
         this.player1.closeInventory();
         this.player2.closeInventory();
-        this.plugin.getTradeManager().removeTradeSession(this.player1);
-        this.plugin.getTradeManager().removeTradeSession(this.player2);
+        this.tradeManager.removeTradeSession(this.player1);
+        this.tradeManager.removeTradeSession(this.player2);
     }
 
     public Inventory getPlayer1Inventory() {

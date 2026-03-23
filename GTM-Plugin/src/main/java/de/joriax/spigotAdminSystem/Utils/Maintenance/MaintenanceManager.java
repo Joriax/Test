@@ -13,8 +13,8 @@
  */
 package de.joriax.spigotAdminSystem.Utils.Maintenance;
 
-import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import de.joriax.spigotAdminSystem.Utils.UtilsMain.UtilsConfig;
+import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -30,10 +30,10 @@ public class MaintenanceManager
 implements Listener {
     private boolean maintenanceMode;
     private final List<UUID> bypassPlayers = new ArrayList<UUID>();
-    private final SpigotAdminSystem plugin;
+    private final JavaPlugin plugin;
     private final String kickMessage = "\u00a7c\u00a7lServer is in maintenance mode!\n\u00a77We'll be back soon.";
 
-    public MaintenanceManager(SpigotAdminSystem plugin) {
+    public MaintenanceManager(JavaPlugin plugin) {
         this.plugin = plugin;
         this.maintenanceMode = UtilsConfig.getMaintenanceConfig().getBoolean("enabled", false);
         List bypassPlayerUUIDs = UtilsConfig.getMaintenanceConfig().getStringList("bypass-players");

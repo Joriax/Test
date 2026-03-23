@@ -24,7 +24,6 @@
  */
 package de.joriax.spigotAdminSystem.Vanish.Command;
 
-import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -65,7 +64,7 @@ import org.bukkit.util.Vector;
 public class VanishCommand
 implements CommandExecutor,
 Listener {
-    private final SpigotAdminSystem plugin;
+    private final org.bukkit.plugin.java.JavaPlugin plugin;
     private File configFile;
     private YamlConfiguration config;
     private boolean loggingEnabled = true;
@@ -78,7 +77,7 @@ Listener {
     private final Map<UUID, Boolean> vanishedPlayers = new HashMap<UUID, Boolean>();
     private final String prefix = ChatColor.translateAlternateColorCodes((char)'&', (String)"&8[&6Vanish&8] &r");
 
-    public VanishCommand(SpigotAdminSystem plugin) {
+    public VanishCommand(org.bukkit.plugin.java.JavaPlugin plugin) {
         this.plugin = plugin;
         this.setupConfig();
         this.setupLogging();

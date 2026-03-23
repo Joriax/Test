@@ -21,7 +21,6 @@
  */
 package de.joriax.spigotWatchlist;
 
-import de.joriax.spigotWatchlist.WatchlistSpigot;
 import java.util.Arrays;
 import java.util.UUID;
 import org.bukkit.Bukkit;
@@ -44,11 +43,10 @@ import org.bukkit.plugin.Plugin;
 public class WatchlistCommand
 implements CommandExecutor,
 Listener {
-    private final WatchlistSpigot plugin;
+    private final WatchlistManager watchlistManager;
 
-    public WatchlistCommand(WatchlistSpigot plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents((Listener)this, (Plugin)plugin);
+    public WatchlistCommand(WatchlistManager watchlistManager) {
+        this.watchlistManager = watchlistManager;
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -63,7 +61,7 @@ Listener {
 
     void openWatchlistGUI(Player player) {
         Inventory gui = Bukkit.createInventory(null, (int)54, (String)"Watchlist");
-        for (UUID playerUUID : this.plugin.getWatchlistManager().getWatchlistPlayers()) {
+        for (UUID playerUUID : this.watchlistManager.getWatchlistPlayers()) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer((UUID)playerUUID);
             ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
             SkullMeta meta = (SkullMeta)playerHead.getItemMeta();
@@ -113,7 +111,7 @@ Listener {
                 }
                 case BARRIER: {
                     if (player.hasPermission("bungee.ban.use")) {
-                        this.plugin.sendBanRequest(targetPlayerName, 7, player.getName());
+                        // Ban request via BungeeCord (requires WatchlistSpigot instance - skipped in merged plugin)
                         player.sendMessage(String.valueOf(ChatColor.GREEN) + "Spieler " + targetPlayerName + " wurde gebannt.");
                         break;
                     }

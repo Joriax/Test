@@ -8,7 +8,6 @@
  */
 package de.joriax.spigotWatchlist;
 
-import de.joriax.spigotWatchlist.WatchlistSpigot;
 import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -18,10 +17,10 @@ import org.bukkit.plugin.messaging.PluginMessageListener;
 
 public class WatchlistMessageListener
 implements PluginMessageListener {
-    private final WatchlistSpigot plugin;
+    private final WatchlistCommand watchlistCommand;
 
-    public WatchlistMessageListener(WatchlistSpigot plugin) {
-        this.plugin = plugin;
+    public WatchlistMessageListener(WatchlistCommand watchlistCommand) {
+        this.watchlistCommand = watchlistCommand;
     }
 
     public void onPluginMessageReceived(String channel, Player player, byte[] message) {
@@ -34,10 +33,10 @@ implements PluginMessageListener {
                 String playerName = in.readUTF();
                 boolean isOnline = in.readBoolean();
                 String serverName = in.readUTF();
-                this.plugin.getServer().getLogger().info("Received WatchlistUpdate for " + playerName + ": " + (String)(isOnline ? "Online on " + serverName : "Offline"));
+                Bukkit.getLogger().info("Received WatchlistUpdate for " + playerName + ": " + (String)(isOnline ? "Online on " + serverName : "Offline"));
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (!p.getOpenInventory().getTitle().equals("Watchlist")) continue;
-                    this.plugin.getWatchlistCommand().openWatchlistGUI(p);
+                    this.watchlistCommand.openWatchlistGUI(p);
                 }
             }
         }

@@ -64,20 +64,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
 public class JetPackSystem
-extends JavaPlugin
 implements Listener,
 CommandExecutor {
+    private final JavaPlugin plugin;
     private final Set<Player> flyingPlayers = new HashSet<Player>();
     private final int fuelConsumptionRate = 1;
-    private final NamespacedKey jetpackKey = new NamespacedKey((Plugin)this, "jetpack");
+    private final NamespacedKey jetpackKey;
     private final int customMaxDurability = 500;
     private LevelSystem levelSystem;
     private final Map<UUID, Double> playerFallHeights = new HashMap<UUID, Double>();
 
-    public void onEnable() {
-        this.levelSystem = LevelSystem.getInstance();
-        Bukkit.getPluginManager().registerEvents((Listener)this, (Plugin)this);
-        this.getCommand("jetpack").setExecutor((CommandExecutor)this);
+    public JetPackSystem(JavaPlugin plugin) {
+        this.plugin = plugin;
+        this.jetpackKey = new NamespacedKey((Plugin)plugin, "jetpack");
         this.startJetpackCheckTask();
     }
 
@@ -94,7 +93,7 @@ CommandExecutor {
                     player.setAllowFlight(JetPackSystem.this.isJetpack(player.getInventory().getChestplate()));
                 }
             }
-        }.runTaskTimer((Plugin)this, 0L, 20L);
+        }.runTaskTimer((Plugin)this.plugin, 0L, 20L);
     }
 
     @EventHandler
@@ -198,7 +197,7 @@ CommandExecutor {
                 }
                 this.lastLocation = player.getLocation();
             }
-        }.runTaskTimer((Plugin)this, 0L, 1L);
+        }.runTaskTimer((Plugin)this.plugin, 0L, 1L);
     }
 
     private void spawnParticles(Player player, Location lastLocation) {

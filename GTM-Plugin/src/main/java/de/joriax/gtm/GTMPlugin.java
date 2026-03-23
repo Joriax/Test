@@ -1,32 +1,10 @@
 package de.joriax.gtm;
 
-import de.joriax.gtm.admin.clearlag.ClearLagManager;
-import de.joriax.gtm.admin.commandspy.CommandSpyListener;
-import de.joriax.gtm.admin.commandspy.CommandSpyManager;
-import de.joriax.gtm.admin.commands.*;
-import de.joriax.gtm.admin.database.MySQLManager;
-import de.joriax.gtm.admin.listeners.*;
-import de.joriax.gtm.admin.maintenance.MaintenanceManager;
-import de.joriax.gtm.admin.perks.PerksManager;
-import de.joriax.gtm.admin.scoreboard.ScoreboardHandler;
-import de.joriax.gtm.admin.tpa.*;
-import de.joriax.gtm.admin.utils.*;
-import de.joriax.gtm.admin.vanish.VanishCommand;
-import de.joriax.gtm.admin.vanish.VanishManager;
-import de.joriax.gtm.armour.ArmourManager;
 import de.joriax.gtm.backpack.BackpackManager;
-import de.joriax.gtm.dealer.DealerManager;
-import de.joriax.gtm.dealer.WareManager;
-import de.joriax.gtm.dealer.commands.BuyerCommand;
-import de.joriax.gtm.dealer.commands.DealerCommand;
 import de.joriax.gtm.economy.DatabaseManager;
 import de.joriax.gtm.economy.EconomyAPI;
 import de.joriax.gtm.economy.EconomyManager;
 import de.joriax.gtm.economy.commands.*;
-import de.joriax.gtm.food.FoodManager;
-import de.joriax.gtm.food.commands.FoodCommand;
-import de.joriax.gtm.gang.GangManager;
-import de.joriax.gtm.jetpack.JetpackManager;
 import de.joriax.gtm.level.LevelDatabase;
 import de.joriax.gtm.level.LevelJoinListener;
 import de.joriax.gtm.level.LevelListener;
@@ -34,36 +12,65 @@ import de.joriax.gtm.level.LevelManager;
 import de.joriax.gtm.level.commands.GiveXPCommand;
 import de.joriax.gtm.level.commands.LevelCommand;
 import de.joriax.gtm.level.commands.SetLevelCommand;
-import de.joriax.gtm.lootcrate.LootCrateManager;
-import de.joriax.gtm.rules.BreakUnbreakListener;
-import de.joriax.gtm.rules.WelcomeListener;
-import de.joriax.gtm.trade.TradeListener;
-import de.joriax.gtm.trade.TradeManager;
-import de.joriax.gtm.trade.commands.TradeCommand;
-import de.joriax.gtm.trash.TrashCanManager;
-import de.joriax.gtm.vehicle.AutoProtectionListener;
-import de.joriax.gtm.vehicle.Autos;
-import de.joriax.gtm.vehicle.VehicleManager;
-import de.joriax.gtm.vehicle.commands.CarCommandExecutor;
-import de.joriax.gtm.watchlist.WatchlistCommand;
-import de.joriax.gtm.watchlist.WatchlistManager;
-import de.joriax.gtm.watchlist.WatchlistMessageListener;
 import de.joriax.gtm.weapons.guns.*;
-import de.joriax.gtm.weapons.guns.commands.AmmoCommand;
-import de.joriax.gtm.weapons.guns.commands.GiveAmmoCommand;
-import de.joriax.gtm.weapons.guns.commands.GunCommand;
+import de.joriax.gtm.weapons.guns.commands.*;
 import de.joriax.gtm.weapons.melee.MeleeWeaponManager;
 import de.joriax.gtm.weapons.throwables.*;
-import de.joriax.gtm.weapons.throwables.commands.*;
-import de.joriax.gtm.wingsuit.WingsuitManager;
+
+import de.joriax.spigotAdminSystem.CommandSpy.CommandListener;
+import de.joriax.spigotAdminSystem.Commands.*;
+import de.joriax.spigotAdminSystem.Listener.*;
+import de.joriax.spigotAdminSystem.Manager.CPSManager;
+import de.joriax.spigotAdminSystem.Manager.DayLightManager;
+import de.joriax.spigotAdminSystem.Manager.MySQLManager;
+import de.joriax.spigotAdminSystem.Utils.BlockedCommands.BlockCommandListener;
+import de.joriax.spigotAdminSystem.Utils.ClearLag.ClearLagManager;
+import de.joriax.spigotAdminSystem.Utils.Maintenance.MaintenanceManager;
+import de.joriax.spigotAdminSystem.Utils.Near.NearSystem;
+import de.joriax.spigotAdminSystem.Utils.Perks.PerksManager;
+import de.joriax.spigotAdminSystem.Utils.TPA.*;
+import de.joriax.spigotAdminSystem.Utils.UtilsMain.UtilsCommand;
+import de.joriax.spigotAdminSystem.Utils.UtilsMain.UtilsConfig;
+import de.joriax.spigotAdminSystem.Utils.Listeners.PlayerDeathListener;
+import de.joriax.spigotAdminSystem.Vanish.Command.VanishCommand;
+import de.joriax.spigotAdminSystem.Vanish.Manager.VanishManager;
+
+import de.joriax.spigotWatchlist.WatchlistCommand;
+import de.joriax.spigotWatchlist.WatchlistManager;
+import de.joriax.spigotWatchlist.WatchlistMessageListener;
+
+import de.joriax.tradeSystem.TradeCommand;
+import de.joriax.tradeSystem.TradeListener;
+import de.joriax.tradeSystem.TradeManager;
+
+import de.joriax.jetPackSystem.JetPackSystem;
+import de.joriax.wingSystem.WingsuitPlugin;
+
+import Regeln.BreakUnbreak;
+import Regeln.Welcome;
+import Command.StaffOnly;
+import Command.VoteCommand;
+import Food.FoodCommand;
+import Food.FoodManager;
+import Armour.ArmourManager;
+import Throw.GiveGrenadeCommand;
+import Throw.GiveMolotovCommand;
+import Throw.GiveTearGasCommand;
+import Throw.GiveSmokeCommand;
+
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 public class GTMPlugin extends JavaPlugin {
 
     private static GTMPlugin instance;
+    private final long startTime = System.currentTimeMillis();
 
-    // Core systems
+    // Core economy
     private DatabaseManager databaseManager;
     private EconomyManager economyManager;
     private EconomyAPI economyAPI;
@@ -72,177 +79,107 @@ public class GTMPlugin extends JavaPlugin {
     private LevelDatabase levelDatabase;
     private LevelManager levelManager;
 
-    // Admin systems
+    // Admin MySQL + tracking maps
     private MySQLManager mySQLManager;
-    private VanishManager vanishManager;
-    private CommandSpyManager commandSpyManager;
-    private PerksManager perksManager;
-    private ScoreboardHandler scoreboardHandler;
-    private ClearLagManager clearLagManager;
-    private MaintenanceManager maintenanceManager;
+    private HashMap<UUID, Long> sessionStartTime;
+    private Map<String, Long> lastSeen;
+
+    // Admin managers
     private CPSManager cpsManager;
     private DayLightManager dayLightManager;
-    private UtilsConfig utilsConfig;
-
-    // TPA system
+    private MaintenanceManager maintenanceManager;
+    private PerksManager perksManager;
+    private ClearLagManager clearLagManager;
+    private VanishCommand vanishCommand;
+    private VanishManager vanishManager;
     private TPAManager tpaManager;
+    private TPAListener tpaListener;
 
-    // Gameplay systems
+    // Gameplay
     private BackpackManager backpackManager;
     private WeaponManager weaponManager;
     private MeleeWeaponManager meleeWeaponManager;
-    private VehicleManager vehicleManager;
-    private GangManager gangManager;
-    private WareManager wareManager;
-    private DealerManager dealerManager;
-    private FoodManager foodManager;
-    private ArmourManager armourManager;
-    private TrashCanManager trashCanManager;
-    private LootCrateManager lootCrateManager;
-    private JetpackManager jetpackManager;
-    private WingsuitManager wingsuitManager;
+    private JetPackSystem jetPackSystem;
+    private WingsuitPlugin wingsuitPlugin;
     private TradeManager tradeManager;
     private WatchlistManager watchlistManager;
 
     @Override
     public void onEnable() {
         instance = this;
-
-        // Save default config
         saveDefaultConfig();
 
-        // Initialize economy database
+        // Economy
         databaseManager = new DatabaseManager(this);
         databaseManager.connect();
-        databaseManager.createTables();
-
         economyManager = new EconomyManager(databaseManager);
         economyAPI = new EconomyAPI(economyManager);
-
-        // Register EconomyAPI as Bukkit service for compatibility
         getServer().getServicesManager().register(EconomyAPI.class, economyAPI, this, ServicePriority.Normal);
 
-        // Initialize level system
+        // Level
         levelDatabase = new LevelDatabase(this);
         levelDatabase.connect();
         levelDatabase.createTables();
         levelManager = new LevelManager(levelDatabase);
 
-        // Initialize admin MySQL
-        mySQLManager = new MySQLManager(this);
+        // UtilsConfig (static setup)
+        UtilsConfig.setupConfig(this);
+
+        // Admin MySQL
+        String dbHost = getConfig().getString("mysql.admin.host", "localhost:3306");
+        String dbDatabase = getConfig().getString("mysql.admin.database", "spigotadminsys");
+        String dbUser = getConfig().getString("mysql.admin.username", "spigotadminsys");
+        String dbPass = getConfig().getString("mysql.admin.password", "spigotadminsys");
+        mySQLManager = new MySQLManager(dbHost, dbDatabase, dbUser, dbPass);
         mySQLManager.connect();
-        mySQLManager.createTables();
+        sessionStartTime = new HashMap<>();
+        lastSeen = new HashMap<>();
 
-        // Initialize admin systems
-        vanishManager = new VanishManager();
-        commandSpyManager = new CommandSpyManager();
-        perksManager = new PerksManager(this);
+        // Admin managers
         cpsManager = new CPSManager();
-        clearLagManager = new ClearLagManager(this);
-        maintenanceManager = new MaintenanceManager(this);
-        utilsConfig = new UtilsConfig(this);
         dayLightManager = new DayLightManager(this);
-
-        // TPA
+        maintenanceManager = new MaintenanceManager(this);
+        perksManager = new PerksManager(this);
+        clearLagManager = new ClearLagManager(this, "[GTM]");
+        vanishCommand = new VanishCommand(this);
+        vanishManager = new VanishManager(this, vanishCommand);
         tpaManager = new TPAManager();
+        tpaListener = new TPAListener(tpaManager, this);
 
-        // Backpack
+        // Gameplay
         backpackManager = new BackpackManager(this);
-
-        // Weapons
         weaponManager = new WeaponManager(this);
         meleeWeaponManager = new MeleeWeaponManager(this);
-
-        // Vehicle
-        vehicleManager = new VehicleManager(this);
-
-        // Gang
-        gangManager = new GangManager(this);
-
-        // Dealer
-        wareManager = new WareManager(this);
-        dealerManager = new DealerManager(this, wareManager);
-
-        // Food
-        foodManager = new FoodManager(this);
-
-        // Armour
-        armourManager = new ArmourManager(this);
-
-        // Trash
-        trashCanManager = new TrashCanManager(this);
-
-        // LootCrate
-        lootCrateManager = new LootCrateManager(this);
-
-        // Jetpack
-        jetpackManager = new JetpackManager(this);
-
-        // Wingsuit
-        wingsuitManager = new WingsuitManager(this);
+        jetPackSystem = new JetPackSystem(this);
+        wingsuitPlugin = new WingsuitPlugin(this);
 
         // Trade
-        tradeManager = new TradeManager(this);
+        tradeManager = new TradeManager();
 
         // Watchlist
-        watchlistManager = new WatchlistManager(this);
+        watchlistManager = new WatchlistManager();
 
-        // Scoreboard (initialized after economy and level)
-        scoreboardHandler = new ScoreboardHandler(this);
+        // Static inits
+        ArmourManager.registerArmour();
+        FoodManager.registerFood();
 
-        // Register commands and listeners
-        registerEconomyCommands();
-        registerLevelCommands();
-        registerLevelListeners();
-        registerBackpackCommands();
-        registerWeaponCommands();
-        registerVehicleCommands();
-        registerDealerCommands();
-        registerFoodCommands();
-        registerTradeCommands();
-        registerWatchlistCommands();
-        registerAdminCommands();
-        registerAdminListeners();
-        registerGameplayListeners();
-        registerRulesListeners();
+        registerCommands();
+        registerListeners();
 
-        getLogger().info("GTMPlugin has been enabled successfully!");
+        getLogger().info("GTMPlugin enabled successfully!");
     }
 
     @Override
     public void onDisable() {
-        // Save all player data
-        if (backpackManager != null) {
-            backpackManager.saveAll();
-        }
-        if (gangManager != null) {
-            gangManager.saveAll();
-        }
-        if (watchlistManager != null) {
-            watchlistManager.saveAll();
-        }
-        if (databaseManager != null) {
-            databaseManager.disconnect();
-        }
-        if (levelDatabase != null) {
-            levelDatabase.disconnect();
-        }
-        if (mySQLManager != null) {
-            mySQLManager.disconnect();
-        }
-        if (clearLagManager != null) {
-            clearLagManager.stopTask();
-        }
-        if (scoreboardHandler != null) {
-            scoreboardHandler.stopTask();
-        }
-        if (dayLightManager != null) {
-            dayLightManager.stopTask();
-        }
-        getLogger().info("GTMPlugin has been disabled.");
+        if (databaseManager != null) databaseManager.disconnect();
+        if (levelDatabase != null) levelDatabase.disconnect();
+        if (mySQLManager != null) mySQLManager.disconnect();
+        if (backpackManager != null) backpackManager.saveAll();
+        getLogger().info("GTMPlugin disabled.");
     }
 
-    private void registerEconomyCommands() {
+    private void registerCommands() {
+        // Economy commands
         getCommand("balance").setExecutor(new BalanceCommand(economyAPI));
         getCommand("pay").setExecutor(new PayCommand(economyAPI));
         getCommand("setbalance").setExecutor(new SetBalanceCommand(economyAPI));
@@ -250,306 +187,146 @@ public class GTMPlugin extends JavaPlugin {
         getCommand("seebalance").setExecutor(new SeeBalanceCommand(economyAPI));
         getCommand("removebalance").setExecutor(new RemoveBalanceCommand(economyAPI));
         getCommand("crowbars").setExecutor(new CrowbarsCommand(economyAPI));
-    }
 
-    private void registerLevelCommands() {
-        LevelCommand levelCmd = new LevelCommand(levelManager);
-        getCommand("level").setExecutor(levelCmd);
+        // Level commands
+        getCommand("level").setExecutor(new LevelCommand(levelManager));
         getCommand("setlevel").setExecutor(new SetLevelCommand(levelManager));
         getCommand("givexp").setExecutor(new GiveXPCommand(levelManager));
-    }
 
-    private void registerLevelListeners() {
-        getServer().getPluginManager().registerEvents(new LevelJoinListener(levelManager), this);
-        getServer().getPluginManager().registerEvents(new LevelListener(levelManager, economyAPI), this);
-    }
-
-    private void registerBackpackCommands() {
+        // Backpack commands
         getCommand("backpack").setExecutor(backpackManager);
         getCommand("viewbackpack").setExecutor(backpackManager);
         getCommand("backpackdelete").setExecutor(backpackManager);
-        getServer().getPluginManager().registerEvents(backpackManager, this);
-    }
 
-    private void registerWeaponCommands() {
+        // Weapon commands
         getCommand("giveweapon").setExecutor(new GunCommand(weaponManager));
         getCommand("giveammo").setExecutor(new GiveAmmoCommand(weaponManager));
         getCommand("ammo").setExecutor(new AmmoCommand(weaponManager));
 
-        getServer().getPluginManager().registerEvents(new WeaponListener(weaponManager), this);
-        getServer().getPluginManager().registerEvents(new WeaponSwitchListener(weaponManager), this);
-        getServer().getPluginManager().registerEvents(new SneakListener(weaponManager), this);
-        getServer().getPluginManager().registerEvents(new AmmoGUIListener(weaponManager), this);
+        // Throwable commands
+        getCommand("grenade").setExecutor(new GiveGrenadeCommand());
+        getCommand("moli").setExecutor(new GiveMolotovCommand());
+        getCommand("tear").setExecutor(new GiveTearGasCommand());
+        getCommand("smoke").setExecutor(new GiveSmokeCommand());
 
-        // Throwables
-        getServer().getPluginManager().registerEvents(new ThrowableGrenade(), this);
-        getServer().getPluginManager().registerEvents(new MolotovCocktail(), this);
-        getServer().getPluginManager().registerEvents(new TearGas(), this);
-        getServer().getPluginManager().registerEvents(new SmokeGrenade(), this);
+        // JetPack / Wingsuit
+        getCommand("jetpack").setExecutor(jetPackSystem);
+        getCommand("wing").setExecutor(wingsuitPlugin);
 
-        getCommand("givegrenade").setExecutor(new GiveGrenadeCommand());
-        getCommand("givemolotov").setExecutor(new GiveMolotovCommand());
-        getCommand("giveteargas").setExecutor(new GiveTearGasCommand());
-        getCommand("givesmoke").setExecutor(new GiveSmokeCommand());
-    }
+        // Trade
+        getCommand("trade").setExecutor(new TradeCommand(tradeManager, economyAPI));
 
-    private void registerVehicleCommands() {
-        CarCommandExecutor carCmd = new CarCommandExecutor(vehicleManager);
-        getCommand("createcar").setExecutor(carCmd);
-        getCommand("car").setExecutor(carCmd);
-        getServer().getPluginManager().registerEvents(new Autos(vehicleManager), this);
-        getServer().getPluginManager().registerEvents(new AutoProtectionListener(vehicleManager), this);
-    }
-
-    private void registerDealerCommands() {
-        getCommand("dealer").setExecutor(new DealerCommand(dealerManager));
-        getCommand("buyer").setExecutor(new BuyerCommand(dealerManager));
-        getServer().getPluginManager().registerEvents(dealerManager, this);
-    }
-
-    private void registerFoodCommands() {
-        getCommand("givefood").setExecutor(new FoodCommand(foodManager));
-    }
-
-    private void registerTradeCommands() {
-        TradeCommand tradeCmd = new TradeCommand(tradeManager);
-        getCommand("trade").setExecutor(tradeCmd);
-        getServer().getPluginManager().registerEvents(new TradeListener(tradeManager, economyAPI), this);
-    }
-
-    private void registerWatchlistCommands() {
+        // Watchlist
         WatchlistCommand watchlistCmd = new WatchlistCommand(watchlistManager);
         getCommand("watchlist").setExecutor(watchlistCmd);
         getServer().getPluginManager().registerEvents(watchlistCmd, this);
-        getServer().getPluginManager().registerEvents(new WatchlistMessageListener(watchlistManager), this);
-    }
+        getServer().getPluginManager().registerEvents(new WatchlistMessageListener(watchlistCmd), this);
 
-    private void registerAdminCommands() {
-        // Vanish
-        VanishCommand vanishCmd = new VanishCommand(vanishManager);
-        getCommand("vanish").setExecutor(vanishCmd);
-        getCommand("unvanish").setExecutor(vanishCmd);
+        // Food
+        getCommand("givefood").setExecutor(new FoodCommand());
 
-        // Basic admin commands
+        // Admin commands
+        getCommand("vanish").setExecutor(vanishCommand);
+        getCommand("unvanish").setExecutor(vanishCommand);
         getCommand("heal").setExecutor(new HealCommand());
-        getCommand("feed").setExecutor(new FeedCommand());
-        getCommand("tp").setExecutor(new TeleportCommand());
-        getCommand("tphere").setExecutor(new TeleportHereCommand());
+        getCommand("feed").setExecutor(new FeedCommand(this));
+        getCommand("tp").setExecutor(new TPCommand());
+        getCommand("tphere").setExecutor(new TPHereCommand());
         getCommand("gm").setExecutor(new GameModeCommand());
         getCommand("god").setExecutor(new GodCommand());
         getCommand("flyspeed").setExecutor(new FlySpeedCommand());
-        getCommand("walkspeed").setExecutor(new WalkSpeedCommand());
+        getCommand("walkspeed").setExecutor(new WalkspeedCommand());
         getCommand("checkcps").setExecutor(new CheckCPSCommand(cpsManager));
-        getCommand("invsee").setExecutor(new InvSeeCommand());
-        getCommand("seen").setExecutor(new SeenCommand(mySQLManager));
+        getCommand("invsee").setExecutor(new InvSee(this));
+        getCommand("seen").setExecutor(new SeenCommand(lastSeen));
         getCommand("getpos").setExecutor(new GetPosCommand());
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("seeping").setExecutor(new SeePingCommand());
-        getCommand("playtime").setExecutor(new PlaytimeCommand(mySQLManager));
+        getCommand("playtime").setExecutor(new PlaytimeCommand(mySQLManager, sessionStartTime));
         getCommand("cc").setExecutor(new ClearChatCommand());
         getCommand("pcc").setExecutor(new PrivateClearChatCommand());
         getCommand("chatmute").setExecutor(new ChatMuteCommand());
         getCommand("day").setExecutor(new DayCommand());
         getCommand("night").setExecutor(new NightCommand());
         getCommand("daylight").setExecutor(new DayLightCommand(dayLightManager));
-        getCommand("gc").setExecutor(new GCCommand());
+        getCommand("gc").setExecutor(new GCCommand(startTime));
         getCommand("lbc").setExecutor(new LocalBroadcastCommand());
-        getCommand("near").setExecutor(new NearCommand());
-        getCommand("fix").setExecutor(new FixCommand());
-        getCommand("fixall").setExecutor(new FixAllCommand());
-        getCommand("perks").setExecutor(new PerksCommand(perksManager));
-        getCommand("staffonly").setExecutor(new StaffOnlyCommand(maintenanceManager));
+        getCommand("near").setExecutor(new NearSystem());
+        getCommand("fix").setExecutor(new FixCommand(this));
+        getCommand("fixall").setExecutor(new FixAllCommand(this));
+        getCommand("staffonly").setExecutor(new StaffOnly());
         getCommand("vote").setExecutor(new VoteCommand());
-        getCommand("utils").setExecutor(new UtilsCommand(this));
+        getCommand("utils").setExecutor(new UtilsCommand());
 
-        // TPA
-        TPACommand tpaCmd = new TPACommand(tpaManager);
-        TPAHereCommand tpaHereCmd = new TPAHereCommand(tpaManager);
-        TPAAcceptCommand tpaAcceptCmd = new TPAAcceptCommand(tpaManager);
-        TPADenyCommand tpaDenyCmd = new TPADenyCommand(tpaManager);
-        TPAToggleCommand tpaToggleCmd = new TPAToggleCommand(tpaManager);
-        TPAAdminCommand tpaAdminCmd = new TPAAdminCommand(tpaManager);
-
-        getCommand("tpa").setExecutor(tpaCmd);
-        getCommand("tpahere").setExecutor(tpaHereCmd);
+        // TPA commands
+        TPACCEPTCommand tpaAcceptCmd = new TPACCEPTCommand(tpaManager, tpaListener);
+        getCommand("tpa").setExecutor(new TPACommand(tpaManager));
+        getCommand("tpahere").setExecutor(new TPAHERECommand(tpaManager));
         getCommand("tpaccept").setExecutor(tpaAcceptCmd);
-        getCommand("tpadeny").setExecutor(tpaDenyCmd);
-        getCommand("tpatoggle").setExecutor(tpaToggleCmd);
-        getCommand("tpaadmin").setExecutor(tpaAdminCmd);
-
-        // Gang
-        getCommand("gang").setExecutor(gangManager);
-        getServer().getPluginManager().registerEvents(gangManager, this);
-
-        // Jetpack
-        getCommand("jetpack").setExecutor(jetpackManager);
-
-        // Wingsuit
-        getCommand("wing").setExecutor(wingsuitManager);
-
-        // LootCrate
-        getCommand("lootcrate").setExecutor(lootCrateManager);
-        getServer().getPluginManager().registerEvents(lootCrateManager, this);
-
-        // Trash
-        getCommand("trash").setExecutor(trashCanManager);
-        getServer().getPluginManager().registerEvents(trashCanManager, this);
+        getCommand("tpadeny").setExecutor(new TPADENYCommand(tpaManager));
+        getCommand("tpatoggle").setExecutor(new TPAToggleCommand(tpaManager));
+        getCommand("tpaadmin").setExecutor(new TPAAdminCommand(tpaManager));
     }
 
-    private void registerAdminListeners() {
-        getServer().getPluginManager().registerEvents(new CommandSpyListener(commandSpyManager), this);
-        getServer().getPluginManager().registerEvents(new ChatListener(maintenanceManager), this);
-        getServer().getPluginManager().registerEvents(new InvSeeListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerQuitListener(mySQLManager, vanishManager, scoreboardHandler), this);
-        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
-        getServer().getPluginManager().registerEvents(new PlayerKillListener(economyAPI, levelManager), this);
-        getServer().getPluginManager().registerEvents(new CPSListener(cpsManager), this);
-        getServer().getPluginManager().registerEvents(new TPAListener(tpaManager), this);
-        getServer().getPluginManager().registerEvents(new MovementListener(tpaManager), this);
-        getServer().getPluginManager().registerEvents(new GUIManager(this), this);
-        getServer().getPluginManager().registerEvents(new BlockCommandListener(maintenanceManager), this);
-        getServer().getPluginManager().registerEvents(vanishManager, this);
-        getServer().getPluginManager().registerEvents(perksManager, this);
-        getServer().getPluginManager().registerEvents(jetpackManager, this);
-        getServer().getPluginManager().registerEvents(wingsuitManager, this);
-    }
+    private void registerListeners() {
+        // Level
+        getServer().getPluginManager().registerEvents(new LevelJoinListener(levelManager), this);
+        getServer().getPluginManager().registerEvents(new LevelListener(levelManager, economyAPI), this);
 
-    private void registerGameplayListeners() {
+        // Backpack
+        getServer().getPluginManager().registerEvents(backpackManager, this);
+
+        // Weapons
+        getServer().getPluginManager().registerEvents(new WeaponListener(weaponManager), this);
+        getServer().getPluginManager().registerEvents(new WeaponSwitchListener(weaponManager), this);
+        getServer().getPluginManager().registerEvents(new SneakListener(weaponManager), this);
+        getServer().getPluginManager().registerEvents(new AmmoGUIListener(weaponManager), this);
+        getServer().getPluginManager().registerEvents(new ThrowableGrenade(), this);
+        getServer().getPluginManager().registerEvents(new MolotovCocktail(), this);
+        getServer().getPluginManager().registerEvents(new TearGas(), this);
+        getServer().getPluginManager().registerEvents(new SmokeGrenade(), this);
+
         // Melee
         getServer().getPluginManager().registerEvents(meleeWeaponManager, this);
+
+        // JetPack / Wingsuit
+        getServer().getPluginManager().registerEvents(jetPackSystem, this);
+        getServer().getPluginManager().registerEvents(wingsuitPlugin, this);
+
+        // Trade
+        getServer().getPluginManager().registerEvents(new TradeListener(tradeManager), this);
+
+        // Regeln
+        getServer().getPluginManager().registerEvents(new BreakUnbreak(), this);
+        getServer().getPluginManager().registerEvents(new Welcome(), this);
+
+        // Admin
+        getServer().getPluginManager().registerEvents(new CommandListener(this), this);
+        getServer().getPluginManager().registerEvents(new ChatListener(), this);
+        getServer().getPluginManager().registerEvents(new InvSeeListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(mySQLManager, sessionStartTime, lastSeen), this);
+        getServer().getPluginManager().registerEvents(new PlayerDeathListener(), this);
+        getServer().getPluginManager().registerEvents(new CPSListener(cpsManager), this);
+        getServer().getPluginManager().registerEvents(tpaListener, this);
+        getServer().getPluginManager().registerEvents(new MovementListener(tpaManager), this);
+        getServer().getPluginManager().registerEvents(new BlockCommandListener(), this);
+        getServer().getPluginManager().registerEvents(vanishCommand, this);
+        getServer().getPluginManager().registerEvents(perksManager, this);
     }
 
-    private void registerRulesListeners() {
-        getServer().getPluginManager().registerEvents(new BreakUnbreakListener(), this);
-        getServer().getPluginManager().registerEvents(new WelcomeListener(levelManager), this);
-    }
-
-    // Getters
     public static GTMPlugin getInstance() {
         return instance;
-    }
-
-    public DatabaseManager getDatabaseManager() {
-        return databaseManager;
-    }
-
-    public EconomyManager getEconomyManager() {
-        return economyManager;
     }
 
     public EconomyAPI getEconomyAPI() {
         return economyAPI;
     }
 
-    public LevelDatabase getLevelDatabase() {
-        return levelDatabase;
-    }
-
     public LevelManager getLevelManager() {
         return levelManager;
     }
 
-    public MySQLManager getMySQLManager() {
-        return mySQLManager;
-    }
-
-    public VanishManager getVanishManager() {
-        return vanishManager;
-    }
-
-    public CommandSpyManager getCommandSpyManager() {
-        return commandSpyManager;
-    }
-
-    public PerksManager getPerksManager() {
-        return perksManager;
-    }
-
-    public ScoreboardHandler getScoreboardHandler() {
-        return scoreboardHandler;
-    }
-
-    public ClearLagManager getClearLagManager() {
-        return clearLagManager;
-    }
-
-    public MaintenanceManager getMaintenanceManager() {
-        return maintenanceManager;
-    }
-
-    public CPSManager getCpsManager() {
-        return cpsManager;
-    }
-
-    public TPAManager getTpaManager() {
-        return tpaManager;
-    }
-
-    public BackpackManager getBackpackManager() {
-        return backpackManager;
-    }
-
     public WeaponManager getWeaponManager() {
         return weaponManager;
-    }
-
-    public MeleeWeaponManager getMeleeWeaponManager() {
-        return meleeWeaponManager;
-    }
-
-    public VehicleManager getVehicleManager() {
-        return vehicleManager;
-    }
-
-    public GangManager getGangManager() {
-        return gangManager;
-    }
-
-    public WareManager getWareManager() {
-        return wareManager;
-    }
-
-    public DealerManager getDealerManager() {
-        return dealerManager;
-    }
-
-    public FoodManager getFoodManager() {
-        return foodManager;
-    }
-
-    public ArmourManager getArmourManager() {
-        return armourManager;
-    }
-
-    public TrashCanManager getTrashCanManager() {
-        return trashCanManager;
-    }
-
-    public LootCrateManager getLootCrateManager() {
-        return lootCrateManager;
-    }
-
-    public JetpackManager getJetpackManager() {
-        return jetpackManager;
-    }
-
-    public WingsuitManager getWingsuitManager() {
-        return wingsuitManager;
-    }
-
-    public TradeManager getTradeManager() {
-        return tradeManager;
-    }
-
-    public WatchlistManager getWatchlistManager() {
-        return watchlistManager;
-    }
-
-    public DayLightManager getDayLightManager() {
-        return dayLightManager;
-    }
-
-    public UtilsConfig getUtilsConfig() {
-        return utilsConfig;
     }
 }

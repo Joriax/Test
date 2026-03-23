@@ -42,9 +42,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 public class WingsuitPlugin
-extends JavaPlugin
 implements Listener,
 CommandExecutor {
+    private final JavaPlugin plugin;
     private final double SINGLE_BOOST_STRENGTH = 0.65;
     private final double HOLD_BOOST_STRENGTH = 0.2;
     private final double MAX_SPEED = 1.6;
@@ -57,9 +57,8 @@ CommandExecutor {
     private final HashSet<UUID> boostingPlayers = new HashSet();
     private final HashMap<UUID, Integer> boostCounts = new HashMap();
 
-    public void onEnable() {
-        Bukkit.getPluginManager().registerEvents((Listener)this, (Plugin)this);
-        this.getCommand("wing").setExecutor((CommandExecutor)this);
+    public WingsuitPlugin(JavaPlugin plugin) {
+        this.plugin = plugin;
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {

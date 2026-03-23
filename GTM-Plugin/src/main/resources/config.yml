@@ -1,0 +1,15 @@
+mysql:
+  # Economy / GTM database
+  economy:
+    host: "localhost"
+    port: 3306
+    database: "gtm"
+    username: "gtm"
+    password: "gtm"
+
+  # Admin system database
+  admin:
+    host: "localhost:3306"
+    database: "spigotadminsys"
+    username: "spigotadminsys"
+    password: "spigotadminsys"

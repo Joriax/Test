@@ -9,8 +9,10 @@
  */
 package de.joriax.tradeSystem;
 
-import de.joriax.tradeSystem.TradePlugin;
+import de.joriax.gtm.economy.EconomyAPI;
+import de.joriax.tradeSystem.TradeManager;
 import de.joriax.tradeSystem.TradeSession;
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,10 +20,12 @@ import org.bukkit.entity.Player;
 
 public class TradeCommand
 implements CommandExecutor {
-    private final TradePlugin plugin;
+    private final TradeManager tradeManager;
+    private final EconomyAPI economyAPI;
 
-    public TradeCommand(TradePlugin plugin) {
-        this.plugin = plugin;
+    public TradeCommand(TradeManager tradeManager, EconomyAPI economyAPI) {
+        this.tradeManager = tradeManager;
+        this.economyAPI = economyAPI;
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -34,7 +38,7 @@ implements CommandExecutor {
             player.sendMessage("\u00a7cVerwendung: /trade <Spieler>");
             return true;
         }
-        Player target = this.plugin.getServer().getPlayer(args[0]);
+        Player target = Bukkit.getServer().getPlayer(args[0]);
         if (target == null) {
             player.sendMessage("\u00a7cSpieler nicht gefunden.");
             return true;
@@ -43,8 +47,8 @@ implements CommandExecutor {
             player.sendMessage("\u00a7cDu bist zu weit von " + target.getName() + " entfernt.");
             return true;
         }
-        TradeSession tradeSession = new TradeSession(player, target, this.plugin);
-        this.plugin.getTradeManager().addTradeSession(player, target, tradeSession);
+        TradeSession tradeSession = new TradeSession(player, target, this.tradeManager, this.economyAPI);
+        this.tradeManager.addTradeSession(player, target, tradeSession);
         return true;
     }
 }

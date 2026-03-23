@@ -11,7 +11,7 @@
  */
 package de.joriax.tradeSystem;
 
-import de.joriax.tradeSystem.TradePlugin;
+import de.joriax.tradeSystem.TradeManager;
 import de.joriax.tradeSystem.TradeSession;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -22,9 +22,9 @@ import org.bukkit.event.player.PlayerQuitEvent;
 
 public class TradeListener
 implements Listener {
-    private final TradePlugin plugin;
+    private final TradeManager plugin;
 
-    public TradeListener(TradePlugin plugin) {
+    public TradeListener(TradeManager plugin) {
         this.plugin = plugin;
     }
 
@@ -32,7 +32,7 @@ implements Listener {
     public void onInventoryClick(InventoryClickEvent event) {
         int slot;
         Player player = (Player)event.getWhoClicked();
-        TradeSession tradeSession = this.plugin.getTradeManager().getTradeSession(player);
+        TradeSession tradeSession = this.plugin.getTradeSession(player);
         if (tradeSession != null && ((slot = event.getRawSlot()) == 33 || slot == 29)) {
             event.setCancelled(true);
             tradeSession.handleClick(player, slot);
@@ -42,20 +42,20 @@ implements Listener {
     @EventHandler
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player)event.getPlayer();
-        TradeSession tradeSession = this.plugin.getTradeManager().getTradeSession(player);
+        TradeSession tradeSession = this.plugin.getTradeSession(player);
         if (tradeSession != null) {
             tradeSession.cancelTrade();
-            this.plugin.getTradeManager().removeTradeSession(player);
+            this.plugin.removeTradeSession(player);
         }
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        TradeSession tradeSession = this.plugin.getTradeManager().getTradeSession(player);
+        TradeSession tradeSession = this.plugin.getTradeSession(player);
         if (tradeSession != null) {
             tradeSession.cancelTrade();
-            this.plugin.getTradeManager().removeTradeSession(player);
+            this.plugin.removeTradeSession(player);
         }
     }
 }

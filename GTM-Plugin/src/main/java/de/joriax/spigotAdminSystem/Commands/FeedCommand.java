@@ -10,7 +10,6 @@
  */
 package de.joriax.spigotAdminSystem.Commands;
 
-import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.ChatColor;
@@ -18,14 +17,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class FeedCommand
 implements CommandExecutor {
-    private final SpigotAdminSystem plugin;
+    private final JavaPlugin plugin;
     private final Map<Player, Long> cooldowns = new HashMap<Player, Long>();
     private final Map<String, Integer> permissionCooldowns = new HashMap<String, Integer>();
 
-    public FeedCommand(SpigotAdminSystem plugin) {
+    public FeedCommand(JavaPlugin plugin) {
         this.plugin = plugin;
         this.permissionCooldowns.put("spigot.feed.vip", 180000);
         this.permissionCooldowns.put("spigot.feed.premium", 120000);

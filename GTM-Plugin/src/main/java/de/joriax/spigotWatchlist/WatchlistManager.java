@@ -3,17 +3,14 @@
  */
 package de.joriax.spigotWatchlist;
 
-import de.joriax.spigotWatchlist.WatchlistSpigot;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
 public class WatchlistManager {
-    private final WatchlistSpigot plugin;
     private final Set<UUID> watchlistPlayers;
 
-    public WatchlistManager(WatchlistSpigot plugin) {
-        this.plugin = plugin;
+    public WatchlistManager() {
         this.watchlistPlayers = new HashSet<UUID>();
     }
 

@@ -17,10 +17,10 @@ import org.bukkit.command.CommandSender;
 
 public class GCCommand
 implements CommandExecutor {
-    private final SpigotAdminSystem plugin;
+    private final long startTime;
 
-    public GCCommand(SpigotAdminSystem plugin) {
-        this.plugin = plugin;
+    public GCCommand(long startTime) {
+        this.startTime = startTime;
     }
 
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -32,7 +32,7 @@ implements CommandExecutor {
         long usedMemory = runtime.totalMemory() - runtime.freeMemory();
         long totalMemory = runtime.totalMemory();
         long maxMemory = runtime.maxMemory();
-        long uptime = System.currentTimeMillis() - this.plugin.getStartTime();
+        long uptime = System.currentTimeMillis() - this.startTime;
         long uptimeSeconds = uptime / 1000L;
         long seconds = uptimeSeconds % 60L;
         long minutes = uptimeSeconds / 60L % 60L;
