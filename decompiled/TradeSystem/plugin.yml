@@ -1,0 +1,9 @@
+name: TradeSystem
+version: '1.0'
+main: de.joriax.tradeSystem.TradePlugin
+api-version: '1.21'
+depend: [Economy]
+commands:
+  trade:
+    description: Startet einen Handel mit einem anderen Spieler.
+    usage: /trade <Spieler>

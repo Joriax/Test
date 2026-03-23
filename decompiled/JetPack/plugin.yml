@@ -1,0 +1,7 @@
+name: JetPackSystem
+version: '1.0'
+main: de.joriax.jetPackSystem.JetPackSystem
+api-version: '1.21'
+depend: [LevelSystem]
+commands:
+  jetpack:

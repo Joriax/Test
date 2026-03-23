@@ -1,0 +1,22 @@
+# BackPackNew Configuration
+
+# Plugin prefix for messages
+prefix: "&8[&6BackPack&8] &r"
+
+# Enable announcements to admins
+enable-announcements: true
+
+# Auto-sort settings
+default-sort-enabled: false
+
+# Auto-save interval in ticks (20 ticks = 1 second)
+# Default is 6000 ticks (5 minutes)
+auto-save-interval: 6000
+
+# Sound settings
+sounds:
+  enabled: true
+  volume: 0.5
+
+# Cache settings
+max-inactive-time: 30 # Minutes before unloaded players' backpacks are unloaded from memory

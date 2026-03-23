@@ -1,0 +1,7 @@
+# Blacklist for items that cannot be taken from other players' inventories
+# Use the exact display name including color codes (use & for colors)
+item-blacklist:
+  - "&6Backpack"
+  - "§8[§6BackPack§8] §r"
+  - "&8[&6BackPack&8] &r"
+  - "&8[&6BackPack&8]"

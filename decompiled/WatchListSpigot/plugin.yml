@@ -1,0 +1,6 @@
+name: SpigotWatchlist
+version: '1.0'
+main: de.joriax.spigotWatchlist.WatchlistSpigot
+api-version: '1.21'
+commands:
+  watchlist:
