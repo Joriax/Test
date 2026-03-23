@@ -1,0 +1,51 @@
+package de.joriax.gtm.level.commands;
+
+import de.joriax.gtm.level.LevelManager;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
+
+public class GiveXPCommand implements CommandExecutor {
+
+    private final LevelManager levelManager;
+
+    public GiveXPCommand(LevelManager levelManager) {
+        this.levelManager = levelManager;
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!sender.hasPermission("gtm.admin.givexp")) {
+            sender.sendMessage(ChatColor.RED + "You don't have permission to use this command.");
+            return true;
+        }
+
+        if (args.length < 2) {
+            sender.sendMessage(ChatColor.RED + "Usage: /givexp <player> <amount>");
+            return true;
+        }
+
+        Player target = Bukkit.getPlayer(args[0]);
+        if (target == null) {
+            sender.sendMessage(ChatColor.RED + "Player '" + args[0] + "' is not online.");
+            return true;
+        }
+
+        int amount;
+        try {
+            amount = Integer.parseInt(args[1]);
+            if (amount <= 0) throw new NumberFormatException();
+        } catch (NumberFormatException e) {
+            sender.sendMessage(ChatColor.RED + "Invalid amount. Must be a positive number.");
+            return true;
+        }
+
+        levelManager.addXP(target, amount);
+        sender.sendMessage(ChatColor.GREEN + "Gave " + amount + " XP to " + target.getName() + ".");
+        target.sendMessage(ChatColor.GOLD + "You received " + ChatColor.YELLOW + amount + " XP" + ChatColor.GOLD + " from an admin!");
+        return true;
+    }
+}
