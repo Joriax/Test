@@ -186,7 +186,7 @@ public class GTMPlugin extends JavaPlugin {
         getCommand("addbalance").setExecutor(new AddBalanceCommand(this));
         getCommand("seebalance").setExecutor(new SeeBalanceCommand(this));
         getCommand("removebalance").setExecutor(new RemoveBalanceCommand(this));
-        getCommand("crowbars").setExecutor(new CrowbarsCommand(this));
+        getCommand("crowbars").setExecutor(new CrowbarsCommand(economyAPI));
 
         // Level commands
         getCommand("level").setExecutor(new LevelCommand(levelManager));

@@ -11,7 +11,7 @@
  */
 package de.joriax.tradeSystem;
 
-import de.joriax.economy.EconomyAPI;
+import de.joriax.gtm.economy.EconomyAPI;
 import de.joriax.tradeSystem.TradeCommand;
 import de.joriax.tradeSystem.TradeListener;
 import de.joriax.tradeSystem.TradeManager;
