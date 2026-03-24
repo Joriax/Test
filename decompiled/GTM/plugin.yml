@@ -1,0 +1,71 @@
+name: GTM
+version: '1'
+main: at.Poriax.gTM.GTM
+api-version: '1.21'
+depend: [Economy]
+
+commands:
+  knife:
+    description: "Gibt dir ein Messer"
+  hammer:
+    description: "Gibt dir einen Hammer"
+  backpack:
+    description: "Öffnet den Rucksack"
+    permission: gtm.backpack
+  vote:
+    description: "Öffnet unsere Webseite"
+  staffOnly:
+    description: "Kann nur von Teammitgliedern verwendet werden, um den Spielmodus zu ändern"
+  giveweapon:
+    description: "Gibt dir eine Waffe"
+  giveammo:
+    description: "Gibt dir Munition"
+    usage: /giveammo <ammoType> <amount>
+  createcar:
+    description: "Erstellt ein Fahrzeug"
+    usage: /createcar <Sitze>
+  givefood:
+    description: "Gibt dem Spieler Essen seiner Wahl"
+    usage: /givefood <foodname> <amount>
+  grenade:
+    description: "Gibt dir eine Granate"
+  moli:
+    description: "Gibt dir einen Molotov-Cocktail"
+  sell:
+    description: "Öffnet die TrashCan-GUI"
+    aliases: [trashcan]
+    usage: /sell
+  tear:
+    description: "Gibt dir eine Tränengasgranate"
+  smoke:
+    description: "Gibt dir eine Rauchgranate"
+  dealer:
+    description: "Öffnet den Dealer"
+  buyer:
+    description: "Öffnet den Buyer"
+  gang:
+    description: "Verwaltet deine Gang"
+    usage: /gang <create|invite|accept|decline|promote|leave|kick>
+  ganginvite:
+    description: "Lädt einen Spieler in deine Gang ein"
+    usage: /ganginvite <Spieler>
+  gangdecline:
+    description: "Lehnt eine Gangeinladung ab"
+  gangaccept:
+    description: "Nimmt eine Gangeinladung an"
+  gangpromote:
+    description: "Befördert einen Spieler zum Co-Leader"
+    usage: /gang promote <Spieler>
+  gangleave:
+    description: "Verlässt die Gang"
+  gangkick:
+    description: "Kickt einen Spieler aus der Gang"
+  car:
+    description: "Fahrzeugbefehl"
+  ammo:
+    description: "Öffnet das Munitions-GUI"
+  vanish:
+  unvanish:
+  level:
+    description: "Zeigt deinen Level an"
+

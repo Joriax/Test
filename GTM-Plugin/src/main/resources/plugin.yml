@@ -1,0 +1,243 @@
+name: GTMPlugin
+version: 1.0.0
+main: de.joriax.gtm.GTMPlugin
+api-version: 1.19
+description: GTM merged plugin
+
+commands:
+  # Economy
+  balance:
+    description: Show your balance
+    usage: /balance
+  pay:
+    description: Pay another player
+    usage: /pay <player> <amount>
+  setbalance:
+    description: Set a player's balance
+    usage: /setbalance <player> <amount>
+  addbalance:
+    description: Add to a player's balance
+    usage: /addbalance <player> <amount>
+  seebalance:
+    description: See another player's balance
+    usage: /seebalance <player>
+  removebalance:
+    description: Remove from a player's balance
+    usage: /removebalance <player> <amount>
+  crowbars:
+    description: Crowbars command
+    usage: /crowbars
+
+  # Level
+  level:
+    description: Show your level
+    usage: /level
+  setlevel:
+    description: Set a player's level
+    usage: /setlevel <player> <level>
+  givexp:
+    description: Give XP to a player
+    usage: /givexp <player> <amount>
+
+  # Backpack
+  backpack:
+    description: Open your backpack
+    usage: /backpack
+  viewbackpack:
+    description: View another player's backpack
+    usage: /viewbackpack <player>
+  backpackdelete:
+    description: Delete a backpack
+    usage: /backpackdelete <player>
+
+  # Weapons
+  giveweapon:
+    description: Give a weapon to a player
+    usage: /giveweapon <player> <weapon>
+  giveammo:
+    description: Give ammo to a player
+    usage: /giveammo <player> <amount>
+  ammo:
+    description: Show ammo info
+    usage: /ammo
+
+  # Throwables
+  grenade:
+    description: Give a grenade
+    usage: /grenade
+  moli:
+    description: Give a molotov cocktail
+    usage: /moli
+  tear:
+    description: Give tear gas
+    usage: /tear
+  smoke:
+    description: Give a smoke grenade
+    usage: /smoke
+
+  # JetPack / Wingsuit
+  jetpack:
+    description: Give a jetpack
+    usage: /jetpack
+    permission: jetpack.use
+  wing:
+    description: Give a wingsuit
+    usage: /wing
+    permission: wingsuit.give
+
+  # Trade
+  trade:
+    description: Trade with another player
+    usage: /trade <player>
+
+  # Watchlist
+  watchlist:
+    description: Manage watchlist
+    usage: /watchlist
+
+  # Food
+  givefood:
+    description: Give food to a player
+    usage: /givefood <player> <food>
+
+  # Admin
+  vanish:
+    description: Vanish
+    usage: /vanish
+    permission: vanish.use
+  unvanish:
+    description: Unvanish
+    usage: /unvanish
+    permission: vanish.use
+  heal:
+    description: Heal a player
+    usage: /heal [player]
+    permission: admin.heal
+  feed:
+    description: Feed a player
+    usage: /feed [player]
+    permission: admin.feed
+  tp:
+    description: Teleport to a player
+    usage: /tp <player>
+    permission: admin.tp
+  tphere:
+    description: Teleport a player to you
+    usage: /tphere <player>
+    permission: admin.tphere
+  gm:
+    description: Change game mode
+    usage: /gm <mode> [player]
+    permission: admin.gm
+  god:
+    description: Toggle god mode
+    usage: /god [player]
+    permission: admin.god
+  flyspeed:
+    description: Set fly speed
+    usage: /flyspeed <speed>
+    permission: admin.flyspeed
+  walkspeed:
+    description: Set walk speed
+    usage: /walkspeed <speed>
+    permission: admin.walkspeed
+  checkcps:
+    description: Check CPS of a player
+    usage: /checkcps <player>
+    permission: admin.checkcps
+  invsee:
+    description: See a player's inventory
+    usage: /invsee <player>
+    permission: admin.invsee
+  seen:
+    description: Show when a player was last seen
+    usage: /seen <player>
+    permission: admin.seen
+  getpos:
+    description: Get position of a player
+    usage: /getpos [player]
+    permission: admin.getpos
+  ping:
+    description: Show your ping
+    usage: /ping
+  seeping:
+    description: See another player's ping
+    usage: /seeping <player>
+    permission: admin.seeping
+  playtime:
+    description: Show playtime of a player
+    usage: /playtime [player]
+  cc:
+    description: Clear the chat
+    usage: /cc
+    permission: admin.clearchat
+  pcc:
+    description: Clear your own chat
+    usage: /pcc
+  chatmute:
+    description: Mute the chat
+    usage: /chatmute
+    permission: admin.chatmute
+  day:
+    description: Set time to day
+    usage: /day
+    permission: admin.day
+  night:
+    description: Set time to night
+    usage: /night
+    permission: admin.night
+  daylight:
+    description: Toggle daylight cycle
+    usage: /daylight
+    permission: admin.daylight
+  gc:
+    description: Show server info
+    usage: /gc
+    permission: admin.gc
+  lbc:
+    description: Local broadcast
+    usage: /lbc <message>
+    permission: admin.lbc
+  near:
+    description: Show nearby players
+    usage: /near [radius]
+  fix:
+    description: Repair held item
+    usage: /fix
+    permission: admin.fix
+  fixall:
+    description: Repair all items
+    usage: /fixall
+    permission: admin.fixall
+  staffonly:
+    description: Toggle staff-only mode
+    usage: /staffonly
+    permission: admin.staffonly
+  vote:
+    description: Vote command
+    usage: /vote
+  utils:
+    description: Utils command
+    usage: /utils
+    permission: admin.utils
+
+  # TPA
+  tpa:
+    description: Request teleport to a player
+    usage: /tpa <player>
+  tpahere:
+    description: Request a player to teleport to you
+    usage: /tpahere <player>
+  tpaccept:
+    description: Accept a teleport request
+    usage: /tpaccept
+  tpadeny:
+    description: Deny a teleport request
+    usage: /tpadeny
+  tpatoggle:
+    description: Toggle TPA requests
+    usage: /tpatoggle
+  tpaadmin:
+    description: Admin TPA command
+    usage: /tpaadmin <player>
+    permission: tpa.admin

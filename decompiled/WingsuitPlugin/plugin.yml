@@ -1,0 +1,7 @@
+name: WingSystem
+version: '1.0'
+main: de.joriax.wingSystem.WingsuitPlugin
+api-version: '1.21'
+author: Joriax
+commands:
+  wing:

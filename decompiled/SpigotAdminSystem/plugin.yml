@@ -1,0 +1,47 @@
+name: SpigotAdminSystem
+version: '2.4.1'
+main: de.joriax.spigotAdminSystem.SpigotAdminSystem
+api-version: '1.21'
+author: Joriax
+depend: [Economy, LevelSystem]
+commands:
+  vanish:
+    aliases: v
+  vanishadmin:
+  flyspeed:
+  heal:
+  feed:
+  tp:
+  gm:
+  fix:
+  fixall:
+  gc:
+  checkcps:
+  tphere:
+  seen:
+  getpos:
+  god:
+  ping:
+  seeping:
+  lbc:
+  playtime:
+  cc:
+  pcc:
+  chatmute:
+  day:
+  night:
+  invsee:
+  invseeadmin:
+  daylight:
+  commandspy:
+  commandspyadmin:
+  utils:
+  near:
+  walkspeed:
+  perks:
+  tpa:
+  tpahere:
+  tpaccept:
+  tpadeny:
+  tpatoggle:
+  tpaadmin:

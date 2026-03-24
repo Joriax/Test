@@ -1,0 +1,17 @@
+name: Economy
+version: '1.0'
+main: de.joriax.economy.Economy
+api-version: '1.21'
+commands:
+  balance:
+  pay:
+  setbalance:
+  addbalance:
+  seebalance:
+  removebalance:
+  crowbars:
+  seecrowbars:
+  addcrowbars:
+  removecrowbars:
+
+

@@ -1,0 +1,8 @@
+name: LevelSystem
+version: '1.0'
+main: de.joriax.levelSystem.LevelSystem
+api-version: '1.21'
+commands:
+  level:
+  setlevel:
+  givexp:

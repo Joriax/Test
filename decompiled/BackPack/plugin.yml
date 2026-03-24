@@ -1,0 +1,47 @@
+name: BackPackNew
+version: 1.1.0
+main: de.joriax.backPackNew.BackPackNew
+api-version: 1.21
+author: Joriax
+description: Enhanced backpack plugin with multiple pages
+
+commands:
+  backpack:
+    description: Opens your backpack
+    usage: /backpack
+    aliases: [bp]
+  viewbackpack:
+    description: View another player's backpack
+    usage: /viewbackpack <player>
+    permission: backpack.admin
+  backpackdelete:
+    description: Delete a player's backpack
+    usage: /backpackdelete <player>
+    permission: backpack.admin
+  backpackadmin:
+    description: Administrative commands for the backpack plugin
+    usage: /backpackadmin
+    permission: backpack.admin
+  backpackclearlog:
+permissions:
+  backpack.use:
+    description: Allows use of the backpack command
+    default: true
+  backpack.vip:
+    description: Gives access to VIP backpack size (36 slots)
+    default: false
+  backpack.elite:
+    description: Gives access to Elite backpack size (45 slots, 2 pages)
+    default: false
+  backpack.premium:
+    description: Gives access to Premium backpack size (54 slots)
+    default: false
+  backpack.sponsor:
+    description: Gives access to Sponsor backpack size (54 slots, 3 pages)
+    default: false
+  backpack.supremium:
+    description: Gives access to Supremium backpack size (54 slots, 4 pages)
+    default: false
+  backpack.admin:
+    description: Gives access to admin commands and the largest backpack (54 slots, 11 pages)
+    default: op
