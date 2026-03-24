@@ -89,7 +89,7 @@ public class UtilsConfig {
             Long time = timeConfig.getLong("time." + world.getName(), -1L);
             if (time == -1L) continue;
             world.setTime(time.longValue());
-            world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, (Object)false);
+            world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         }
     }
 

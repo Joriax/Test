@@ -142,33 +142,25 @@ CommandExecutor {
     private void startJetpack(final Player player) {
         this.flyingPlayers.add(player);
         player.setFlying(true);
-        new BukkitRunnable(this){
-            private Location lastLocation;
-            private int soundCooldown;
-            private int fuelCooldown;
-            private int durabilityCooldown;
-            final /* synthetic */ JetPackSystem this$0;
-            {
-                this.this$0 = this$0;
-                this.lastLocation = player.getLocation();
-                this.soundCooldown = 0;
-                this.fuelCooldown = 0;
-                this.durabilityCooldown = 0;
-            }
+        new BukkitRunnable(){
+            private Location lastLocation = player.getLocation();
+            private int soundCooldown = 0;
+            private int fuelCooldown = 0;
+            private int durabilityCooldown = 0;
 
             public void run() {
-                if (!this.this$0.flyingPlayers.contains(player) || !player.isOnline()) {
-                    this.this$0.stopJetpack(player);
+                if (!JetPackSystem.this.flyingPlayers.contains(player) || !player.isOnline()) {
+                    JetPackSystem.this.stopJetpack(player);
                     this.cancel();
                     return;
                 }
                 ItemStack chestplate = player.getInventory().getChestplate();
-                if (!this.this$0.isJetpack(chestplate)) {
-                    this.this$0.stopJetpack(player);
+                if (!JetPackSystem.this.isJetpack(chestplate)) {
+                    JetPackSystem.this.stopJetpack(player);
                     this.cancel();
                     return;
                 }
-                this.this$0.spawnParticles(player, this.lastLocation);
+                JetPackSystem.this.spawnParticles(player, this.lastLocation);
                 if (this.soundCooldown <= 0) {
                     player.getWorld().playSound(player.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1.0f, 1.0f);
                     this.soundCooldown = 4;
@@ -176,8 +168,8 @@ CommandExecutor {
                     --this.soundCooldown;
                 }
                 if (this.fuelCooldown <= 0) {
-                    if (!this.this$0.consumeFuel(player)) {
-                        this.this$0.stopJetpack(player);
+                    if (!JetPackSystem.this.consumeFuel(player)) {
+                        JetPackSystem.this.stopJetpack(player);
                         this.cancel();
                         return;
                     }
@@ -186,8 +178,8 @@ CommandExecutor {
                     --this.fuelCooldown;
                 }
                 if (this.durabilityCooldown <= 0) {
-                    if (!this.this$0.reduceDurability(player)) {
-                        this.this$0.stopJetpack(player);
+                    if (!JetPackSystem.this.reduceDurability(player)) {
+                        JetPackSystem.this.stopJetpack(player);
                         this.cancel();
                         return;
                     }
@@ -271,7 +263,7 @@ CommandExecutor {
         ItemMeta meta = jetpack.getItemMeta();
         meta.setDisplayName("\u00a76Jetpack");
         meta.setLore(Collections.singletonList("\u00a77Fliegen mit Holzkohle"));
-        meta.getPersistentDataContainer().set(this.jetpackKey, PersistentDataType.BYTE, (Object)1);
+        meta.getPersistentDataContainer().set(this.jetpackKey, PersistentDataType.BYTE, (byte)1);
         jetpack.setItemMeta(meta);
         player.getInventory().addItem(new ItemStack[]{jetpack});
         player.sendMessage("\u00a7aJetpack erhalten!");

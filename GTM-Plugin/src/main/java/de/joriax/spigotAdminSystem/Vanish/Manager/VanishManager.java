@@ -9,6 +9,7 @@
  */
 package de.joriax.spigotAdminSystem.Vanish.Manager;
 
+import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import de.joriax.spigotAdminSystem.Vanish.Command.VanishCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 import java.util.HashSet;

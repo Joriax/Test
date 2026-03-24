@@ -36,7 +36,7 @@ implements Listener {
     public MaintenanceManager(JavaPlugin plugin) {
         this.plugin = plugin;
         this.maintenanceMode = UtilsConfig.getMaintenanceConfig().getBoolean("enabled", false);
-        List bypassPlayerUUIDs = UtilsConfig.getMaintenanceConfig().getStringList("bypass-players");
+        List<String> bypassPlayerUUIDs = UtilsConfig.getMaintenanceConfig().getStringList("bypass-players");
         for (String uuidStr : bypassPlayerUUIDs) {
             try {
                 this.bypassPlayers.add(UUID.fromString(uuidStr));

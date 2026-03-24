@@ -249,17 +249,13 @@ implements Listener {
     }
 
     private void startXpGain(final Player player) {
-        new BukkitRunnable(this){
-            final /* synthetic */ LevelSystem this$0;
-            {
-                this.this$0 = this$0;
-            }
+        new BukkitRunnable(){
 
             public void run() {
-                PlayerData data = this.this$0.playerDataMap.get(player.getUniqueId());
+                PlayerData data = LevelSystem.this.playerDataMap.get(player.getUniqueId());
                 if (data != null) {
                     data.addXp(10);
-                    this.this$0.updateXpBar(player);
+                    LevelSystem.this.updateXpBar(player);
                 }
             }
         }.runTaskTimer((Plugin)this, 0L, 1200L);

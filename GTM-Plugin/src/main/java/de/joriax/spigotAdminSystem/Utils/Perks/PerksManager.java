@@ -13,9 +13,10 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class PerksManager {
+public class PerksManager implements Listener {
     private final JavaPlugin plugin;
     private final File perksFile;
     private final YamlConfiguration perksConfig;

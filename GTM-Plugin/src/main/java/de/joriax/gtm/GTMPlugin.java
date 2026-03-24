@@ -180,13 +180,13 @@ public class GTMPlugin extends JavaPlugin {
 
     private void registerCommands() {
         // Economy commands
-        getCommand("balance").setExecutor(new BalanceCommand(economyAPI));
-        getCommand("pay").setExecutor(new PayCommand(economyAPI));
-        getCommand("setbalance").setExecutor(new SetBalanceCommand(economyAPI));
-        getCommand("addbalance").setExecutor(new AddBalanceCommand(economyAPI));
-        getCommand("seebalance").setExecutor(new SeeBalanceCommand(economyAPI));
-        getCommand("removebalance").setExecutor(new RemoveBalanceCommand(economyAPI));
-        getCommand("crowbars").setExecutor(new CrowbarsCommand(economyAPI));
+        getCommand("balance").setExecutor(new BalanceCommand(this));
+        getCommand("pay").setExecutor(new PayCommand(this));
+        getCommand("setbalance").setExecutor(new SetBalanceCommand(this));
+        getCommand("addbalance").setExecutor(new AddBalanceCommand(this));
+        getCommand("seebalance").setExecutor(new SeeBalanceCommand(this));
+        getCommand("removebalance").setExecutor(new RemoveBalanceCommand(this));
+        getCommand("crowbars").setExecutor(new CrowbarsCommand(this));
 
         // Level commands
         getCommand("level").setExecutor(new LevelCommand(levelManager));
@@ -220,7 +220,7 @@ public class GTMPlugin extends JavaPlugin {
         WatchlistCommand watchlistCmd = new WatchlistCommand(watchlistManager);
         getCommand("watchlist").setExecutor(watchlistCmd);
         getServer().getPluginManager().registerEvents(watchlistCmd, this);
-        getServer().getPluginManager().registerEvents(new WatchlistMessageListener(watchlistCmd), this);
+        getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", new WatchlistMessageListener(watchlistCmd));
 
         // Food
         getCommand("givefood").setExecutor(new FoodCommand());

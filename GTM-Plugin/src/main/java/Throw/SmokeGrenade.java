@@ -67,7 +67,7 @@ implements Listener {
             final Item thrownItem = player.getWorld().dropItem(player.getLocation(), smokeGrenadeToThrow);
             thrownItem.setVelocity(direction);
             thrownItem.setPickupDelay(Integer.MAX_VALUE);
-            new BukkitRunnable(this){
+            new BukkitRunnable(){
 
                 public void run() {
                     final Location center = thrownItem.getLocation();

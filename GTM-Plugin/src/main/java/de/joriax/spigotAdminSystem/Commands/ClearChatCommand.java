@@ -22,7 +22,7 @@ import org.bukkit.entity.Player;
 public class ClearChatCommand
 implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        Object player;
+        Player player;
         if (sender instanceof Player && !(player = (Player)sender).hasPermission("spigot.chat.clear.use")) {
             player.sendMessage(SpigotAdminSystem.getPrefix() + String.valueOf(ChatColor.RED) + "You do not have permission to use this command.");
             return true;

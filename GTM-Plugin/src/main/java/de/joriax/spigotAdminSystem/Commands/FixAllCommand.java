@@ -12,6 +12,7 @@
  */
 package de.joriax.spigotAdminSystem.Commands;
 
+import de.joriax.spigotAdminSystem.SpigotAdminSystem;
 import java.util.HashMap;
 import java.util.Map;
 import org.bukkit.ChatColor;

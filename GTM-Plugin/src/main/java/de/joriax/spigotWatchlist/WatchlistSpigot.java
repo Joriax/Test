@@ -35,8 +35,8 @@ implements PluginMessageListener {
     private WatchlistManager watchlistManager;
 
     public void onEnable() {
-        this.watchlistManager = new WatchlistManager(this);
-        this.watchlistCommand = new WatchlistCommand(this);
+        this.watchlistManager = new WatchlistManager();
+        this.watchlistCommand = new WatchlistCommand(this.watchlistManager);
         this.getServer().getMessenger().registerOutgoingPluginChannel((Plugin)this, "watchlist:ban");
         this.getServer().getMessenger().registerIncomingPluginChannel((Plugin)this, "watchlist:ban", (PluginMessageListener)this);
         this.getServer().getMessenger().registerOutgoingPluginChannel((Plugin)this, "watchlist:gui");
@@ -44,7 +44,7 @@ implements PluginMessageListener {
         this.getCommand("watchlist").setExecutor((CommandExecutor)this.watchlistCommand);
         this.getServer().getPluginManager().registerEvents((Listener)this.watchlistCommand, (Plugin)this);
         this.getServer().getMessenger().registerOutgoingPluginChannel((Plugin)this, "BungeeCord");
-        this.getServer().getMessenger().registerIncomingPluginChannel((Plugin)this, "BungeeCord", (PluginMessageListener)new WatchlistMessageListener(this));
+        this.getServer().getMessenger().registerIncomingPluginChannel((Plugin)this, "BungeeCord", (PluginMessageListener)new WatchlistMessageListener(this.watchlistCommand));
     }
 
     public void onDisable() {

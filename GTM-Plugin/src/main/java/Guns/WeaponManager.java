@@ -77,19 +77,19 @@ public class WeaponManager {
     }
 
     public static int getAmmo(Player player, AmmoType ammoType) {
-        return ((Map)playerAmmo.getOrDefault(player.getUniqueId(), new EnumMap(AmmoType.class))).getOrDefault((Object)ammoType, 0);
+        return (int)((Map)playerAmmo.getOrDefault(player.getUniqueId(), new EnumMap(AmmoType.class))).getOrDefault((Object)ammoType, 0);
     }
 
     public static void decreaseAmmo(Player player, AmmoType ammoType, int amount) {
         Map ammoMap = playerAmmo.computeIfAbsent(player.getUniqueId(), k -> new EnumMap(AmmoType.class));
-        int newAmount = ammoMap.getOrDefault((Object)ammoType, 0) - amount;
+        int newAmount = (int)ammoMap.getOrDefault((Object)ammoType, 0) - amount;
         ammoMap.put(ammoType, newAmount);
         WeaponManager.saveAmmoData();
     }
 
     public static void addAmmo(Player player, AmmoType ammoType, int amount) {
         Map ammoMap = playerAmmo.computeIfAbsent(player.getUniqueId(), k -> new EnumMap(AmmoType.class));
-        int newAmount = ammoMap.getOrDefault((Object)ammoType, 0) + amount;
+        int newAmount = (int)ammoMap.getOrDefault((Object)ammoType, 0) + amount;
         ammoMap.put(ammoType, newAmount);
         WeaponManager.saveAmmoData();
     }

@@ -105,7 +105,7 @@ Listener {
             }
             this.logFile = new File(this.logDir, "vanish.log");
             this.logHandler = new FileHandler(this.logFile.getPath(), 1000000, 1, true);
-            this.logHandler.setFormatter(new SimpleFormatter(this){
+            this.logHandler.setFormatter(new SimpleFormatter(){
                 private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 @Override
@@ -154,7 +154,7 @@ Listener {
             }
             this.logFile.createNewFile();
             this.logHandler = new FileHandler(this.logFile.getPath(), 1000000, 1, true);
-            this.logHandler.setFormatter(new SimpleFormatter(this){
+            this.logHandler.setFormatter(new SimpleFormatter(){
                 private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 @Override
@@ -335,9 +335,9 @@ Listener {
                 ItemStack paper = new ItemStack(Material.PAPER);
                 ItemMeta paperMeta = paper.getItemMeta();
                 paperMeta.setDisplayName("\u00a7eAction #" + (i + 1));
-                ArrayList<CallSite> lore = new ArrayList<CallSite>();
+                ArrayList<String> lore = new ArrayList<String>();
                 for (String part : parts = entry.split("(?<=\\G.{40})")) {
-                    lore.add((CallSite)((Object)("\u00a77" + part.trim())));
+                    lore.add("\u00a77" + part.trim());
                 }
                 paperMeta.setLore(lore);
                 paper.setItemMeta(paperMeta);

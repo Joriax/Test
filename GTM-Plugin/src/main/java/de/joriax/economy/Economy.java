@@ -41,7 +41,7 @@ extends JavaPlugin {
             this.economyManager = new EconomyManager(this.databaseManager);
             this.economyManager.addCrobwarsColumn();
             this.economyAPI = new EconomyAPI(this.economyManager);
-            this.getServer().getServicesManager().register(EconomyAPI.class, (Object)this.economyAPI, (Plugin)this, ServicePriority.Normal);
+            this.getServer().getServicesManager().register(EconomyAPI.class, this.economyAPI, (Plugin)this, ServicePriority.Normal);
             this.getCommand("balance").setExecutor((CommandExecutor)new BalanceCommand(this.economyManager));
             this.getCommand("pay").setExecutor((CommandExecutor)new PayCommand(this.economyManager));
             this.getCommand("setbalance").setExecutor((CommandExecutor)new SetBalanceCommand(this.economyManager));

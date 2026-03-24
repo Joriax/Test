@@ -67,11 +67,7 @@ public class ScoreboardHandler {
     }
 
     public void updateScoreboard(final Player player) {
-        new BukkitRunnable(this){
-            final /* synthetic */ ScoreboardHandler this$0;
-            {
-                this.this$0 = this$0;
-            }
+        new BukkitRunnable(){
 
             public void run() {
                 if (!player.isOnline()) {
@@ -80,7 +76,7 @@ public class ScoreboardHandler {
                 }
                 Scoreboard scoreboard = player.getScoreboard();
                 if (scoreboard == null) {
-                    this.this$0.createScoreboard(player);
+                    ScoreboardHandler.this.createScoreboard(player);
                     return;
                 }
                 Team levelTeam = scoreboard.getTeam("level");
@@ -88,7 +84,7 @@ public class ScoreboardHandler {
                 Team moneyTeam = scoreboard.getTeam("money");
                 Team onlineTeam = scoreboard.getTeam("online");
                 if (levelTeam == null || xpTeam == null || moneyTeam == null || onlineTeam == null) {
-                    this.this$0.createScoreboard(player);
+                    ScoreboardHandler.this.createScoreboard(player);
                     return;
                 }
                 LevelSystem levelSystem = LevelSystem.getInstance();
@@ -101,8 +97,8 @@ public class ScoreboardHandler {
                     levelTeam.setSuffix(String.valueOf(ChatColor.RED) + "N/A");
                     xpTeam.setSuffix(String.valueOf(ChatColor.RED) + "N/A");
                 }
-                if (this.this$0.economyManager != null) {
-                    double balance = this.this$0.economyManager.getBalance(player);
+                if (ScoreboardHandler.this.economyManager != null) {
+                    double balance = ScoreboardHandler.this.economyManager.getBalance(player);
                     moneyTeam.setSuffix(String.valueOf(ChatColor.GREEN) + String.format("$%.2f", balance));
                 } else {
                     moneyTeam.setSuffix(String.valueOf(ChatColor.RED) + "$0.00");

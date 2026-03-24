@@ -3,6 +3,8 @@
  */
 package de.joriax.spigotAdminSystem.Listener;
 
-public class InvSeeListener {
+import org.bukkit.event.Listener;
+
+public class InvSeeListener implements Listener {
 }
 

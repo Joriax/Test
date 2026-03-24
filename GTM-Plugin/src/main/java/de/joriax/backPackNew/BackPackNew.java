@@ -175,7 +175,7 @@ CommandExecutor {
             }
             this.logFile = new File(this.logDir, "backpack.log");
             this.logHandler = new FileHandler(this.logFile.getPath(), 1000000, 1, true);
-            this.logHandler.setFormatter(new SimpleFormatter(this){
+            this.logHandler.setFormatter(new SimpleFormatter(){
                 private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 @Override
@@ -221,7 +221,7 @@ CommandExecutor {
                 this.logFile = new File(this.logDir, "backpack.log");
                 this.logFile.createNewFile();
                 this.logHandler = new FileHandler(this.logFile.getPath(), 1000000, 1, true);
-                this.logHandler.setFormatter(new SimpleFormatter(this){
+                this.logHandler.setFormatter(new SimpleFormatter(){
                     private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                     @Override
@@ -544,9 +544,9 @@ CommandExecutor {
                 ItemStack paper = new ItemStack(Material.PAPER);
                 ItemMeta paperMeta = paper.getItemMeta();
                 paperMeta.setDisplayName(String.valueOf(org.bukkit.ChatColor.YELLOW) + "Action #" + (i + 1));
-                ArrayList<CallSite> lore = new ArrayList<CallSite>();
+                ArrayList<String> lore = new ArrayList<String>();
                 for (String part : parts = entry.split("(?<=\\G.{40})")) {
-                    lore.add((CallSite)((Object)(String.valueOf(org.bukkit.ChatColor.GRAY) + part.trim())));
+                    lore.add(String.valueOf(org.bukkit.ChatColor.GRAY) + part.trim());
                 }
                 paperMeta.setLore(lore);
                 paper.setItemMeta(paperMeta);
@@ -607,7 +607,7 @@ CommandExecutor {
         }
         if (!this.backpackAccessTimes.isEmpty()) {
             player.sendMessage(String.valueOf(org.bukkit.ChatColor.AQUA) + "\u00bb Most Recent Users:");
-            this.backpackAccessTimes.entrySet().stream().sorted(Map.Entry.comparingByValue().reversed()).limit(5L).forEach(entry -> {
+            this.backpackAccessTimes.entrySet().stream().sorted(Map.Entry.<UUID, Long>comparingByValue().reversed()).limit(5L).forEach(entry -> {
                 String username = Bukkit.getOfflinePlayer((UUID)((UUID)entry.getKey())).getName();
                 if (username != null) {
                     long timeDiff = System.currentTimeMillis() - (Long)entry.getValue();
@@ -1016,9 +1016,7 @@ CommandExecutor {
                     }
                 }
             }
-            ownerName = event.getRawSlots().iterator();
-            while (ownerName.hasNext()) {
-                int slot = (Integer)ownerName.next();
+            for (int slot : event.getRawSlots()) {
                 if (slot < 45 && (slot >= 45 || slot < this.getBackpackData((UUID)ownerUUID).currentSize.slots)) continue;
                 event.setCancelled(true);
                 return;

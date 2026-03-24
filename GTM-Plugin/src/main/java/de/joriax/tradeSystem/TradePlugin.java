@@ -30,8 +30,8 @@ extends JavaPlugin {
         if (this.setupEconomy()) {
             this.getLogger().info("TradePlugin aktiviert!");
             this.tradeManager = new TradeManager();
-            this.getCommand("trade").setExecutor((CommandExecutor)new TradeCommand(this));
-            this.getServer().getPluginManager().registerEvents((Listener)new TradeListener(this), (Plugin)this);
+            this.getCommand("trade").setExecutor((CommandExecutor)new TradeCommand(this.tradeManager, this.economyAPI));
+            this.getServer().getPluginManager().registerEvents((Listener)new TradeListener(this.tradeManager), (Plugin)this);
         } else {
             this.getLogger().severe("EconomyAPI not found. The plugin will be deactivated.");
             this.getServer().getPluginManager().disablePlugin((Plugin)this);

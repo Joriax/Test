@@ -91,7 +91,7 @@ CommandExecutor {
             }
             this.logFile = new File(this.logDir, "invsee.log");
             this.logHandler = new FileHandler(this.logFile.getPath(), 1000000, 1, true);
-            this.logHandler.setFormatter(new SimpleFormatter(this){
+            this.logHandler.setFormatter(new SimpleFormatter(){
                 private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 @Override
@@ -140,7 +140,7 @@ CommandExecutor {
             }
             this.logFile.createNewFile();
             this.logHandler = new FileHandler(this.logFile.getPath(), 1000000, 1, true);
-            this.logHandler.setFormatter(new SimpleFormatter(this){
+            this.logHandler.setFormatter(new SimpleFormatter(){
                 private final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
                 @Override
@@ -317,9 +317,9 @@ CommandExecutor {
                 ItemStack item = new ItemStack(Material.PAPER);
                 ItemMeta meta = item.getItemMeta();
                 meta.setDisplayName(String.valueOf(ChatColor.YELLOW) + "Action #" + (i + 1));
-                ArrayList<CallSite> lore = new ArrayList<CallSite>();
+                ArrayList<String> lore = new ArrayList<String>();
                 for (String part : parts = entry.split("(?<=\\G.{40})")) {
-                    lore.add((CallSite)((Object)(String.valueOf(ChatColor.GRAY) + part.trim())));
+                    lore.add(String.valueOf(ChatColor.GRAY) + part.trim());
                 }
                 meta.setLore(lore);
                 item.setItemMeta(meta);

@@ -83,13 +83,13 @@ CommandExecutor {
         for (Map.Entry<UUID, Set<UUID>> entry : this.coLeaders.entrySet()) {
             config.set("coLeaders." + entry.getKey().toString(), (Object)entry.getValue().stream().map(UUID::toString).toArray());
         }
-        for (Map.Entry<UUID, Object> entry : this.gangNames.entrySet()) {
+        for (Map.Entry<UUID, String> entry : this.gangNames.entrySet()) {
             config.set("gangNames." + entry.getKey().toString(), entry.getValue());
         }
-        for (Map.Entry<UUID, Object> entry : this.gangXP.entrySet()) {
+        for (Map.Entry<UUID, Integer> entry : this.gangXP.entrySet()) {
             config.set("gangXP." + entry.getKey().toString(), entry.getValue());
         }
-        for (Map.Entry<UUID, Object> entry : this.gangLevels.entrySet()) {
+        for (Map.Entry<UUID, Integer> entry : this.gangLevels.entrySet()) {
             config.set("gangLevels." + entry.getKey().toString(), entry.getValue());
         }
         try {
@@ -285,9 +285,9 @@ CommandExecutor {
             leaderMeta.setOwningPlayer(Bukkit.getOfflinePlayer((UUID)leaderId));
             String leaderName = Bukkit.getOfflinePlayer((UUID)leaderId).getName();
             leaderMeta.setDisplayName(String.valueOf(ChatColor.YELLOW) + leaderName);
-            ArrayList<CallSite> leaderLore = new ArrayList<CallSite>();
-            leaderLore.add((CallSite)((Object)(String.valueOf(ChatColor.GRAY) + "Status: " + (leaderPlayer != null ? String.valueOf(ChatColor.GREEN) + "Online" : String.valueOf(ChatColor.RED) + "Offline"))));
-            leaderLore.add((CallSite)((Object)(String.valueOf(ChatColor.GRAY) + "Rank: " + String.valueOf(ChatColor.GOLD) + "Leader")));
+            ArrayList<String> leaderLore = new ArrayList<String>();
+            leaderLore.add(String.valueOf(ChatColor.GRAY) + "Status: " + (leaderPlayer != null ? String.valueOf(ChatColor.GREEN) + "Online" : String.valueOf(ChatColor.RED) + "Offline"));
+            leaderLore.add(String.valueOf(ChatColor.GRAY) + "Rank: " + String.valueOf(ChatColor.GOLD) + "Leader");
             leaderMeta.setLore(leaderLore);
             leaderSkull.setItemMeta((ItemMeta)leaderMeta);
             gui.setItem(slot, leaderSkull);
@@ -300,10 +300,10 @@ CommandExecutor {
                 meta.setOwningPlayer(Bukkit.getOfflinePlayer((UUID)memberId));
                 String playerName = Bukkit.getOfflinePlayer((UUID)memberId).getName();
                 meta.setDisplayName(String.valueOf(ChatColor.YELLOW) + playerName);
-                ArrayList<CallSite> lore = new ArrayList<CallSite>();
-                lore.add((CallSite)((Object)(String.valueOf(ChatColor.GRAY) + "Status: " + (member != null ? String.valueOf(ChatColor.GREEN) + "Online" : String.valueOf(ChatColor.RED) + "Offline"))));
+                ArrayList<String> lore = new ArrayList<String>();
+                lore.add(String.valueOf(ChatColor.GRAY) + "Status: " + (member != null ? String.valueOf(ChatColor.GREEN) + "Online" : String.valueOf(ChatColor.RED) + "Offline"));
                 String rank = ((Set)this.coLeaders.getOrDefault(leaderId, new HashSet())).contains(memberId) ? String.valueOf(ChatColor.YELLOW) + "Co-Leader" : String.valueOf(ChatColor.WHITE) + "Member";
-                lore.add((CallSite)((Object)(String.valueOf(ChatColor.GRAY) + "Rank: " + rank)));
+                lore.add(String.valueOf(ChatColor.GRAY) + "Rank: " + rank);
                 meta.setLore(lore);
                 skull.setItemMeta((ItemMeta)meta);
                 if (slot > 16) continue;
@@ -316,8 +316,8 @@ CommandExecutor {
             ItemStack xpPaper = new ItemStack(Material.PAPER);
             ItemMeta paperMeta = xpPaper.getItemMeta();
             paperMeta.setDisplayName(String.valueOf(ChatColor.YELLOW) + "Gang Level: " + currentLevel);
-            ArrayList<CallSite> paperLore = new ArrayList<CallSite>();
-            paperLore.add((CallSite)((Object)(String.valueOf(ChatColor.GRAY) + "XP: " + currentXP + "/" + requiredXP)));
+            ArrayList<String> paperLore = new ArrayList<String>();
+            paperLore.add(String.valueOf(ChatColor.GRAY) + "XP: " + currentXP + "/" + requiredXP);
             paperMeta.setLore(paperLore);
             xpPaper.setItemMeta(paperMeta);
             gui.setItem(22, xpPaper);
@@ -503,9 +503,9 @@ CommandExecutor {
             SkullMeta meta = (SkullMeta)skull.getItemMeta();
             meta.setOwningPlayer((OfflinePlayer)player);
             meta.setDisplayName(String.valueOf(ChatColor.YELLOW) + player.getName());
-            ArrayList<CallSite> lore = new ArrayList<CallSite>();
-            lore.add((CallSite)((Object)(String.valueOf(ChatColor.GRAY) + "Status: " + String.valueOf(ChatColor.GREEN) + "Online")));
-            lore.add((CallSite)((Object)(String.valueOf(ChatColor.GRAY) + "Rank: " + String.valueOf(ChatColor.WHITE) + "Member")));
+            ArrayList<String> lore = new ArrayList<String>();
+            lore.add(String.valueOf(ChatColor.GRAY) + "Status: " + String.valueOf(ChatColor.GREEN) + "Online");
+            lore.add(String.valueOf(ChatColor.GRAY) + "Rank: " + String.valueOf(ChatColor.WHITE) + "Member");
             meta.setLore(lore);
             skull.setItemMeta((ItemMeta)meta);
             gui.addItem(new ItemStack[]{skull});

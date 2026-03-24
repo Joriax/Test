@@ -63,7 +63,7 @@ implements Listener {
                     lastShotTimes.put(player, currentTime);
                     final int extraShots = Math.max(0, (int)Math.floor(weapon.getFireRate()) - 1);
                     long shotDelay = extraShots == 0 ? 0L : (extraShots == 1 ? 4L : (extraShots == 2 ? 3L : 1L));
-                    BukkitRunnable shootTask = new BukkitRunnable(this){
+                    BukkitRunnable shootTask = new BukkitRunnable(){
                         int shotsFired = 0;
                         int totalShots = extraShots + 1;
 

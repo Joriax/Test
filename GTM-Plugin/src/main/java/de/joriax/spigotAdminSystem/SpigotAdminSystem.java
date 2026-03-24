@@ -186,7 +186,7 @@ implements Listener {
             this.getCommand("chatmute").setExecutor((CommandExecutor)new ChatMuteCommand());
             this.getCommand("day").setExecutor((CommandExecutor)new DayCommand());
             this.getCommand("night").setExecutor((CommandExecutor)new NightCommand());
-            this.getCommand("gc").setExecutor((CommandExecutor)new GCCommand(this));
+            this.getCommand("gc").setExecutor((CommandExecutor)new GCCommand(this.startTime));
             this.getCommand("invsee").setExecutor((CommandExecutor)invSee);
             this.getCommand("invseeadmin").setExecutor((CommandExecutor)invSee);
             this.getCommand("daylight").setExecutor((CommandExecutor)new DayLightCommand(this.daylightManager));

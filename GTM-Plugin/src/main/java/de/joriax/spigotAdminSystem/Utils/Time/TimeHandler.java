@@ -21,7 +21,7 @@ public class TimeHandler {
             default -> 0L;
         };
         world.setTime(time);
-        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, (Object)false);
+        world.setGameRule(GameRule.DO_DAYLIGHT_CYCLE, false);
         UtilsConfig.getTimeConfig().set("time." + world.getName(), (Object)time);
         UtilsConfig.saveTimeConfig();
     }
