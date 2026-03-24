@@ -39,7 +39,7 @@ public class DatabaseManager {
 
     public Connection getConnection() throws SQLException {
         if (this.connection == null || this.connection.isClosed()) {
-            this.connect("jdbc:mysql://localhost:3306/economy", "economy", "economy");
+            this.connect("jdbc:mysql://localhost:3306/gtm", "gtm", "gtm");
         }
         return this.connection;
     }

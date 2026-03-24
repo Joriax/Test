@@ -32,9 +32,9 @@ extends JavaPlugin {
 
     public void onEnable() {
         this.getLogger().info("Economy Plugin ON!");
-        String dbUrl = "jdbc:mysql://localhost:3306/economy";
-        String dbUser = "economy";
-        String dbPassword = "economy";
+        String dbUrl = "jdbc:mysql://localhost:3306/gtm";
+        String dbUser = "gtm";
+        String dbPassword = "gtm";
         try {
             this.databaseManager = new DatabaseManager();
             this.databaseManager.connect(dbUrl, dbUser, dbPassword);

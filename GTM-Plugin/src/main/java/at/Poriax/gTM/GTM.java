@@ -145,7 +145,7 @@ extends JavaPlugin {
             this.getServer().getPluginManager().disablePlugin((Plugin)this);
         }
         try {
-            LevelDatabase.connect("localhost", "level", "economy", "economy");
+            LevelDatabase.connect("localhost", "gtm", "gtm", "gtm");
             LevelDatabase.setupTable();
             this.getLogger().info("Levels-Datenbank erfolgreich verbunden!");
         }

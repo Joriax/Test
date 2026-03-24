@@ -1,7 +1,6 @@
 package de.joriax.gtm.level;
 
 import de.joriax.gtm.GTMPlugin;
-import org.bukkit.configuration.file.FileConfiguration;
 
 import java.sql.*;
 import java.util.UUID;
@@ -11,20 +10,14 @@ public class LevelDatabase {
 
     private final GTMPlugin plugin;
     private Connection connection;
-    private final String host;
-    private final int port;
-    private final String database;
-    private final String username;
-    private final String password;
+    private final String host = "localhost";
+    private final int port = 3306;
+    private final String database = "gtm";
+    private final String username = "gtm";
+    private final String password = "gtm";
 
     public LevelDatabase(GTMPlugin plugin) {
         this.plugin = plugin;
-        FileConfiguration config = plugin.getConfig();
-        this.host = config.getString("database.host", "localhost");
-        this.port = config.getInt("database.port", 3306);
-        this.database = config.getString("database.name", "gtm");
-        this.username = config.getString("database.user", "root");
-        this.password = config.getString("database.password", "password");
     }
 
     public void connect() {

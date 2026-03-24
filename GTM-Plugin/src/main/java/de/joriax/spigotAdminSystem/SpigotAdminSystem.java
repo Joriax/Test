@@ -129,11 +129,7 @@ implements Listener {
             this.maintenanceManager = new MaintenanceManager(this);
             this.perksManager = new PerksManager(this);
             this.tpaManager = new TPAManager();
-            String host = "localhost:3306";
-            String database = "spigotadminsys";
-            String username = "spigotadminsys";
-            String password = "spigotadminsys";
-            this.mysqlManager = new MySQLManager(host, database, username, password);
+            this.mysqlManager = new MySQLManager("localhost:3306", "adminspigot", "adminspigot", "adminspigot");
             this.mysqlManager.connect();
             this.sessionStartTime = new HashMap();
             this.getServer().getPluginManager().registerEvents((Listener)this, (Plugin)this);

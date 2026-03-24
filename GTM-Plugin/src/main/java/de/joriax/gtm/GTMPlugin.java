@@ -126,11 +126,7 @@ public class GTMPlugin extends JavaPlugin {
         UtilsConfig.setupConfig(this);
 
         // Admin MySQL
-        String dbHost = getConfig().getString("mysql.admin.host", "localhost:3306");
-        String dbDatabase = getConfig().getString("mysql.admin.database", "spigotadminsys");
-        String dbUser = getConfig().getString("mysql.admin.username", "spigotadminsys");
-        String dbPass = getConfig().getString("mysql.admin.password", "spigotadminsys");
-        mySQLManager = new MySQLManager(dbHost, dbDatabase, dbUser, dbPass);
+        mySQLManager = new MySQLManager("localhost:3306", "adminspigot", "adminspigot", "adminspigot");
         mySQLManager.connect();
         sessionStartTime = new HashMap<>();
         lastSeen = new HashMap<>();

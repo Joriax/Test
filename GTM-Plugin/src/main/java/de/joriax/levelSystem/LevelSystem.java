@@ -53,9 +53,9 @@ extends JavaPlugin
 implements Listener {
     private HashMap<UUID, PlayerData> playerDataMap = new HashMap();
     private Connection connection;
-    private String dbUrl = "jdbc:mysql://localhost:3306/levelsystem_db";
-    private String dbUser = "levelsystem_db";
-    private String dbPassword = "levelsystem_db";
+    private String dbUrl = "jdbc:mysql://localhost:3306/gtm";
+    private String dbUser = "gtm";
+    private String dbPassword = "gtm";
 
     public void onEnable() {
         this.getServer().getPluginManager().registerEvents((Listener)this, (Plugin)this);
